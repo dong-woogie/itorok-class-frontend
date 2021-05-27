@@ -5,17 +5,17 @@ const LoadablePlugin = require("@loadable/webpack-plugin");
 module.exports = (env) => {
   return {
     mode: "production",
-    entry: path.join(__dirname, "../src/index.server.tsx"),
+    entry: path.join(__dirname, "../src/index.tsx"),
     output: {
-      path: path.join(__dirname, "../dist"),
-      filename: "server.js",
-      libraryTarget: "commonjs2",
-      publicPath: "/dist",
+      path: path.join(__dirname, "../build"),
+      filename: "static/js/[name].[contenthash:8].js",
+      chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
     },
-    target: "node",
+    target: "web",
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".mjs"],
     },
+    devtool: "source-map",
     module: {
       rules: [
         {
@@ -30,9 +30,9 @@ module.exports = (env) => {
                   [
                     "@babel/preset-env",
                     {
-                      useBuiltIns: undefined,
-                      corejs: false,
-                      targets: { node: "current" },
+                      useBuiltIns: "entry",
+                      corejs: "core-js@3",
+                      targets: undefined,
                     },
                   ],
                 ],
