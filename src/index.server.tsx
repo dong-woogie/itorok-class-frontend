@@ -6,6 +6,9 @@ import { ChunkExtractor } from "@loadable/server";
 import path from "path";
 import serveStatic from "serve-static";
 import App from "./App";
+import { createApolloClient } from "./apollo";
+import { ApolloProvider } from "@apollo/client";
+import { getDataFromTree } from "@apollo/client/react/ssr";
 
 const app = express();
 const PORT = 5001;
@@ -14,18 +17,33 @@ const statsFile = path.join(__dirname, "../build/loadable-stats.json");
 
 app.use(serveStatic(path.resolve("./build"), { index: false }));
 
-app.get("*", (req, res) => {
+app.get("*", async (req, res) => {
   const context = {};
   const extractor = new ChunkExtractor({ statsFile, publicPath: "/" });
+
+  const client = createApolloClient();
+
   const jsx = extractor.collectChunks(
-    <StaticRouter location={req.url} context={context}>
-      <App />
-    </StaticRouter>
+    <ApolloProvider client={client}>
+      <StaticRouter location={req.url} context={context}>
+        <App />
+      </StaticRouter>
+    </ApolloProvider>
   );
+
+  try {
+    await getDataFromTree(jsx);
+  } catch (e) {}
 
   const rendered = renderToString(jsx);
 
-  const scriptCollected = extractor.getScriptTags();
+  const initialState = client.extract();
+
+  const apolloScript = `<script>window.__APOLLO_STATE__ = ${JSON.stringify(
+    initialState
+  ).replace(/</g, "\\u003c")}</script>`;
+
+  const scriptCollected = extractor.getScriptTags() + apolloScript;
   const linkCollected = extractor.getLinkTags();
   const styleCollected = extractor.getStyleTags();
 
@@ -45,7 +63,7 @@ app.get("*", (req, res) => {
         <div id="root">${rendered}</div>
       </body>
       ${scriptCollected}
-    </html>  
+    </html>
   `);
 });
 
