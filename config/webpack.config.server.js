@@ -2,6 +2,7 @@ const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const LoadablePlugin = require("@loadable/webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env) => {
   return {
@@ -73,9 +74,22 @@ module.exports = (env) => {
             },
           ],
         },
+        {
+          test: /\.css$/,
+          use: {
+            loader: [MiniCssExtractPlugin.loader, "css-loader"],
+            options: {},
+          },
+        },
       ],
     },
-    plugins: [new CleanWebpackPlugin(), new LoadablePlugin()],
+    plugins: [
+      new MiniCssExtractPlugin({
+        filename: "[name].css",
+      }),
+      new CleanWebpackPlugin(),
+      new LoadablePlugin(),
+    ],
     externalsPresets: { node: true },
     externals: ["@loadable/component", nodeExternals()],
     optimization: {
