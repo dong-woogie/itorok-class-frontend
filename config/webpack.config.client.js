@@ -5,11 +5,12 @@ const LoadablePlugin = require("@loadable/webpack-plugin");
 module.exports = (env) => {
   return {
     mode: "production",
-    entry: path.join(__dirname, "../src/index.tsx"),
+    entry: ["@babel/polyfill", path.join(__dirname, "../src/index.tsx")],
     output: {
       path: path.join(__dirname, "../build"),
       filename: "static/js/[name].[contenthash:8].js",
       chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
+      publicPath: "/",
     },
     target: "web",
     resolve: {
@@ -19,7 +20,7 @@ module.exports = (env) => {
     module: {
       rules: [
         {
-          test: /.(ts|tsx)/,
+          test: /.(ts|tsx|mjs|js)/,
           use: [
             {
               loader: "babel-loader",
@@ -33,10 +34,40 @@ module.exports = (env) => {
                       useBuiltIns: "entry",
                       corejs: "core-js@3",
                       targets: undefined,
+                      modules: false,
                     },
                   ],
                 ],
-                plugins: ["@loadable/babel-plugin"],
+                plugins: [
+                  "@loadable/babel-plugin",
+                  "@babel/plugin-syntax-dynamic-import",
+                  "babel-plugin-graphql-tag",
+                ],
+              },
+            },
+          ],
+        },
+
+        {
+          oneOf: [
+            {
+              test: /\.(png|jpe?g|gif|ico)$/i,
+              use: {
+                loader: "url-loader",
+                options: {
+                  limit: 10000,
+                  publicPath: "/",
+                  name: "static/media/[name].[hash:8].[ext]",
+                },
+              },
+            },
+            {
+              test: /\.(png|jpe?g|gif|ico)$/i,
+              use: {
+                loader: "file-loader",
+                options: {
+                  name: "static/media/[name].[hash:8].[ext]",
+                },
               },
             },
           ],
@@ -44,5 +75,8 @@ module.exports = (env) => {
       ],
     },
     plugins: [new CleanWebpackPlugin(), new LoadablePlugin()],
+    optimization: {
+      minimize: true,
+    },
   };
 };

@@ -1,11 +1,12 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const LoadablePlugin = require("@loadable/webpack-plugin");
+const nodeExternals = require("webpack-node-externals");
 
 module.exports = (env) => {
   return {
     mode: "production",
-    entry: path.join(__dirname, "../src/index.server.tsx"),
+    entry: ["@babel/polyfill", path.join(__dirname, "../src/index.server.tsx")],
     output: {
       path: path.join(__dirname, "../dist"),
       filename: "server.js",
@@ -19,7 +20,7 @@ module.exports = (env) => {
     module: {
       rules: [
         {
-          test: /.(ts|tsx)/,
+          test: /.(ts|tsx|mjs|js)/,
           use: [
             {
               loader: "babel-loader",
@@ -33,10 +34,41 @@ module.exports = (env) => {
                       useBuiltIns: undefined,
                       corejs: false,
                       targets: { node: "current" },
+                      modules: "commonjs",
                     },
                   ],
                 ],
-                plugins: ["@loadable/babel-plugin"],
+                plugins: [
+                  "@loadable/babel-plugin",
+                  "@babel/plugin-syntax-dynamic-import",
+                  "babel-plugin-graphql-tag",
+                ],
+              },
+            },
+          ],
+        },
+        {
+          oneOf: [
+            {
+              test: /\.(png|jpe?g|gif|ico)$/i,
+              use: {
+                loader: "url-loader",
+                options: {
+                  limit: 10000,
+                  publicPath: "/",
+                  name: "static/media/[name].[hash:8].[ext]",
+                },
+              },
+            },
+            {
+              test: /\.(png|jpe?g|gif|ico)$/i,
+              use: {
+                loader: "file-loader",
+                options: {
+                  emitFile: false,
+                  publicPath: "/",
+                  name: "static/media/[name].[hash:8].[ext]",
+                },
               },
             },
           ],
@@ -44,5 +76,10 @@ module.exports = (env) => {
       ],
     },
     plugins: [new CleanWebpackPlugin(), new LoadablePlugin()],
+    externalsPresets: { node: true },
+    externals: ["@loadable/component", nodeExternals()],
+    optimization: {
+      minimize: false,
+    },
   };
 };
