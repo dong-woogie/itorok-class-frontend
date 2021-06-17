@@ -4,21 +4,27 @@ function isWebTarget(caller) {
 
 module.exports = (api) => {
   const web = api.caller(isWebTarget);
-  console.log(api);
+  const isProd = process.env.NODE_ENV === "production";
+
   return {
     presets: [
-      "@babel/preset-typescript",
-      "@babel/preset-react",
       [
         "@babel/preset-env",
         {
-          useBuiltIns: web ? "entry" : undefined,
+          targets: web ? "> 2%, not dead" : { node: "current" },
           corejs: web ? "core-js@3" : false,
-          targets: !web ? { node: "current" } : undefined,
+          useBuiltIns: web ? "usage" : undefined,
           modules: false,
+          // shippedProposals: true,
         },
       ],
+      "@babel/preset-react",
+      "@babel/preset-typescript",
     ],
-    plugins: ["@loadable/babel-plugin", "@babel/plugin-syntax-dynamic-import"],
+    plugins: [
+      isProd && "@loadable/babel-plugin",
+      "@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-transform-runtime",
+    ].filter(Boolean),
   };
 };

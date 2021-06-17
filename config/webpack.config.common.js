@@ -1,5 +1,4 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const LoadablePlugin = require("@loadable/webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
@@ -29,13 +28,11 @@ function config(target) {
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".mjs"],
     },
-    optimization: {
-      minimize: true,
-    },
     module: {
       rules: [
         {
           test: /\.(ts|tsx|mjs|js)$/,
+          exclude: /node_modules/,
           use: [
             {
               loader: "babel-loader",
@@ -73,16 +70,16 @@ function config(target) {
         },
         {
           test: /\.css$/,
+
           use: [MiniCssExtractPlugin.loader, "css-loader"],
         },
       ],
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "/static/styles/[name].css",
+        filename: "static/styles/[name].css",
       }),
       new CleanWebpackPlugin(),
-      new LoadablePlugin(),
     ],
   };
 }
