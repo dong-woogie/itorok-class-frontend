@@ -12,8 +12,23 @@ import rootReducer from "./modules";
 
 const store = createStore(rootReducer, (window as any).__REDUX_STATE__);
 
-loadableReady(() =>
-  ReactDom.hydrate(
+if (process.env.NODE_ENV === "production") {
+  loadableReady(() =>
+    ReactDom.hydrate(
+      <HelmetProvider>
+        <Provider store={store}>
+          <ApolloProvider client={createApolloClient()}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </ApolloProvider>
+        </Provider>
+      </HelmetProvider>,
+      document.getElementById("root")
+    )
+  );
+} else {
+  ReactDom.render(
     <HelmetProvider>
       <Provider store={store}>
         <ApolloProvider client={createApolloClient()}>
@@ -24,5 +39,5 @@ loadableReady(() =>
       </Provider>
     </HelmetProvider>,
     document.getElementById("root")
-  )
-);
+  );
+}
