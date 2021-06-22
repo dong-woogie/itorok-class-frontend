@@ -1,22 +1,8 @@
-import { useQuery } from "@apollo/client";
-import gql from "graphql-tag";
-import React from "react";
-import Logo from "../image/logo.png";
-
-const QUERY = gql`
-  query itorok {
-    itorok
-  }
-`;
+import React from 'react'
+import Logo from '../image/logo.png'
 
 function Home() {
-  const { data } = useQuery(QUERY);
-  return (
-    <div>
-      {data?.itorok}
-      <img alt="test" src={Logo} />
-    </div>
-  );
+  return <div className="bg-blue-300 py-20">Home</div>
 }
 
-export default Home;
+export default Home
