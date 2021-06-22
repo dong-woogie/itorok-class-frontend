@@ -1,32 +1,28 @@
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require("path");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const path = require('path')
 
 function config(target) {
-  const isWeb = target === "web";
+  const isWeb = target === 'web'
   return {
-    entry: [
-      isWeb
-        ? path.join(__dirname, "../src/index.tsx")
-        : path.join(__dirname, "../src/index.server.tsx"),
-    ],
+    entry: [isWeb ? path.join(__dirname, '../src/index.tsx') : path.join(__dirname, '../src/index.server.tsx')],
     output: isWeb
       ? {
-          path: path.join(__dirname, "../build"),
-          filename: "static/js/[name].[contenthash:8].js",
-          chunkFilename: "static/js/[name].[contenthash:8].chunk.js",
-          publicPath: "/",
+          path: path.join(__dirname, '../build'),
+          filename: 'static/js/[name].[contenthash:8].js',
+          chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
+          publicPath: '/',
         }
       : {
-          path: path.join(__dirname, "../dist"),
-          filename: "server.js",
-          libraryTarget: "commonjs2",
-          publicPath: "/",
+          path: path.join(__dirname, '../dist'),
+          filename: 'server.js',
+          libraryTarget: 'commonjs2',
+          publicPath: '/',
         },
     target,
-    devtool: "source-map",
+    devtool: 'source-map',
     resolve: {
-      extensions: [".ts", ".tsx", ".js", ".mjs"],
+      extensions: ['.ts', '.tsx', '.js', '.mjs'],
     },
     module: {
       rules: [
@@ -35,7 +31,7 @@ function config(target) {
           exclude: /node_modules/,
           use: [
             {
-              loader: "babel-loader",
+              loader: 'babel-loader',
               options: {
                 caller: target,
                 cacheDirectory: false,
@@ -48,21 +44,21 @@ function config(target) {
             {
               test: /\.(png|jpe?g|gif|ico)$/i,
               use: {
-                loader: "url-loader",
+                loader: 'url-loader',
                 options: {
                   limit: 10000,
-                  publicPath: "/",
-                  name: "static/media/[name].[hash:8].[ext]",
+                  publicPath: '/',
+                  name: 'static/media/[name].[hash:8].[ext]',
                 },
               },
             },
             {
               test: /\.(png|jpe?g|gif|ico)$/i,
               use: {
-                loader: "file-loader",
+                loader: 'file-loader',
                 options: {
                   emitFile: isWeb,
-                  name: "static/media/[name].[hash:8].[ext]",
+                  name: 'static/media/[name].[hash:8].[ext]',
                 },
               },
             },
@@ -71,17 +67,17 @@ function config(target) {
         {
           test: /\.css$/,
 
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
       ],
     },
     plugins: [
       new MiniCssExtractPlugin({
-        filename: "static/styles/[name].css",
+        filename: 'static/styles/[name].css',
       }),
       new CleanWebpackPlugin(),
     ],
-  };
+  }
 }
 
-module.exports = config;
+module.exports = config

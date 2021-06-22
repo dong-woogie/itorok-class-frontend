@@ -15,7 +15,7 @@ module.exports = (api) => {
           corejs: web ? "core-js@3" : false,
           useBuiltIns: web ? "usage" : undefined,
           modules: false,
-          // shippedProposals: true,
+          shippedProposals: true,
         },
       ],
       "@babel/preset-react",

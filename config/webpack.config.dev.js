@@ -1,31 +1,28 @@
-const commonConfig = require("./webpack.config.common");
-const { merge } = require("webpack-merge");
-const RefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const path = require("path");
-const webpack = require("webpack");
+const commonConfig = require('./webpack.config.common');
+const { merge } = require('webpack-merge');
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
 
-module.exports = merge(commonConfig("web"), {
-  mode: "development",
+module.exports = merge(commonConfig('web'), {
+  mode: 'development',
   output: {
-    path: path.join(__dirname, "../build"),
-    filename: "[name].js",
-    chunkFilename: "[name].chunk.js",
-    publicPath: "/",
+    path: path.join(__dirname, '../build'),
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js',
+    publicPath: '/',
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new RefreshWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "../public/index.html"),
+      template: path.join(__dirname, '../public/index.html'),
     }),
   ],
-  optimization: {
-    minimizer: false,
-  },
   devServer: {
     hot: true,
-    publicPath: "/",
+    publicPath: '/',
     port: 3000,
     historyApiFallback: true,
   },

@@ -1,12 +1,12 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import dialog, { DialogState } from "./dialog";
+import { combineReducers, configureStore } from "@reduxjs/toolkit"
+import dialog, { DialogState } from "./dialog"
 
 export interface rootState {
-  dialog: DialogState;
+  dialog: DialogState
 }
 
 const rootReducer = combineReducers({
   dialog: dialog.reducer,
-});
+})
 
-export default rootReducer;
+export default rootReducer

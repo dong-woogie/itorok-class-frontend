@@ -1,37 +1,30 @@
-import React from "react";
-import { Route, Switch } from "react-router";
-import { Link } from "react-router-dom";
-import loadable from "@loadable/component";
-import { Helmet } from "react-helmet-async";
-import Favicon from "./image/favicon_32x32.ico";
-import "./styles/styles.css";
+import React from 'react'
+import { Route, Switch } from 'react-router'
+import loadable from '@loadable/component'
+import { Helmet } from 'react-helmet-async'
+import Favicon from './image/favicon_32x32.ico'
+import './styles/styles.css'
+import Header from './components/Header'
+import Footer from './components/Footer'
 
-const HomePage = loadable(() => import("./pages/Home"));
-const PostPage = loadable(() => import("./pages/Post"));
+const HomePage = loadable(() => import('./pages/Home'))
 
 function App() {
   return (
-    <>
+    <div className="min-h-screen">
       <Helmet>
         <title>itorok class</title>
         <link rel="shortcut icon" href={Favicon}></link>
       </Helmet>
-      <Link to="/">
-        <li className="bg-blue-200 text-white">HOME</li>
-      </Link>
-      <Link to="/post">
-        <li>POST</li>
-      </Link>
+      <Header />
       <Switch>
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/post">
-          <PostPage name="woogie" />
-        </Route>
       </Switch>
-    </>
-  );
+      <Footer />
+    </div>
+  )
 }
 
-export default App;
+export default App
