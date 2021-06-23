@@ -4,10 +4,10 @@ import loadable from '@loadable/component'
 import { Helmet } from 'react-helmet-async'
 import Favicon from './image/favicon_32x32.ico'
 import './styles/styles.css'
-import Header from './components/Header'
-import Footer from './components/Footer'
+import dotenv from 'dotenv'
 
 const HomePage = loadable(() => import('./pages/Home'))
+const LoginPage = loadable(() => import('./pages/Login'))
 
 function App() {
   return (
@@ -16,13 +16,10 @@ function App() {
         <title>itorok class</title>
         <link rel="shortcut icon" href={Favicon}></link>
       </Helmet>
-      <Header />
       <Switch>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/login" component={LoginPage} />
       </Switch>
-      <Footer />
     </div>
   )
 }

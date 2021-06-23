@@ -9,6 +9,8 @@ module.exports = {
         lightBlue: colors.lightBlue,
         rose: colors.rose,
         emerald: colors.emerald,
+        kakao: '#fee500',
+        facebook: '#1876f1',
       },
       letterSpacing: {
         tightest: '-.075em',
