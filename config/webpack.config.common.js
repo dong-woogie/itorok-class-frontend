@@ -1,6 +1,7 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
+const Dotenv = require('dotenv-webpack')
 
 function config(target) {
   const isWeb = target === 'web'
@@ -76,6 +77,7 @@ function config(target) {
         filename: 'static/styles/[name].css',
       }),
       new CleanWebpackPlugin(),
+      new Dotenv(),
     ],
   }
 }
