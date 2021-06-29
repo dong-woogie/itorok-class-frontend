@@ -8,7 +8,7 @@ import './styles/styles.css'
 const HomePage = loadable(() => import('./pages/Home'))
 const LoginPage = loadable(() => import('./pages/Login'))
 const SocialLoginPage = loadable(() => import('./pages/SocialLogin'))
-
+const SocialRegisterPage = loadable(() => import('./pages/SocialRegister'))
 function App() {
   return (
     <div className="min-h-screen">
@@ -20,6 +20,7 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/social" component={SocialLoginPage} exact />
+        <Route path="/social/register" component={SocialRegisterPage} exact />
       </Switch>
     </div>
   )
