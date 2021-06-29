@@ -1,12 +1,37 @@
 {
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "root": true,
   "parser": "@typescript-eslint/parser",
-  "extends": [
-    "airbnb",
-    "eslint:recommended",
-    "plugin:import/recommended",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "plugins": ["prettier"]
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project" : "./tsconfig.json"
+  },
+  "settings": {
+		"import/resolver": {
+			"node": {
+				"paths": ["src"],
+				"extensions": [".d.ts", ".ts", ".tsx"]
+			}
+		}
+	},
+  "extends": ["plugin:react/recommended", "airbnb", "plugin:prettier/recommended"],
+  "plugins": ["react","@typescript-eslint","prettier"],
+  "rules": {
+		"react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+		"import/extensions": [
+			"error",
+			"ignorePackages",
+			{ "js": "never", "jsx": "never", "ts": "never", "tsx": "never", "json": "never" }
+		],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "no-underscore-dangle" : "off"
+	}
 }

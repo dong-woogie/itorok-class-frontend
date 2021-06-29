@@ -1,5 +1,5 @@
 import React from 'react'
-import Logo from '../image/favicon_32x32.ico'
+
 export interface HeaderProps {
   isLogged: boolean
 }
