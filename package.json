@@ -10,7 +10,8 @@
     "build": "npm run tailwind:prodbuild && npm run build:client && npm run build:server",
     "build:client": "webpack --progress --config ./config/webpack.config.client.js",
     "build:server": "webpack --progress --config ./config/webpack.config.server.js",
-    "dev": "NODE_ENV=development npm run tailwind:build && webpack serve --env=development --config ./config/webpack.config.dev.js"
+    "dev": "NODE_ENV=development npm run apollo:codegen && npm run tailwind:build && webpack serve --env=development --config ./config/webpack.config.dev.js",
+    "apollo:codegen" : "apollo client:codegen src/__generated__ --target=typescript --outputFlat"
   },
   "repository": {
     "type": "git",
