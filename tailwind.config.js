@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        lightBlue: colors.lightBlue,
+        sky: colors.sky,
         rose: colors.rose,
         emerald: colors.emerald,
         kakao: '#fee500',
@@ -25,7 +25,14 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
+      borderColor: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
+      textColor: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
+      opacity: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
+      transform: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
+      scale: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
+    },
   },
   plugins: [],
 }
