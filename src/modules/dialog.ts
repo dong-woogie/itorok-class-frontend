@@ -1,21 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 export interface DialogState {
-  dialog: boolean;
+  dialog: boolean
 }
 
 const initialState: DialogState = {
   dialog: false,
-};
+}
 
 const dialog = createSlice({
   initialState,
-  name: "dialog",
+  name: 'dialog',
   reducers: {
-    toggleDialog: (state) => {
-      state.dialog = !state.dialog;
+    toggleDialog: (state: DialogState) => {
+      state.dialog = !state.dialog
     },
   },
-});
+})
 
-export default dialog;
+export default dialog
