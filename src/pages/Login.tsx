@@ -1,10 +1,15 @@
 import React from 'react'
+import { useHistory } from 'react-router'
 import Popover from '../components/Popover'
 import { socialLoginUrl } from '../lib'
 
 function Login() {
+  const history = useHistory()
+  const onClose = () => {
+    history.push('/')
+  }
   return (
-    <Popover>
+    <Popover title="로그인" onClose={onClose}>
       <div className="px-4">
         <h1 className="py-20 text-center font-bold text-4xl tracking-widest italic">ITOROK</h1>
         <div className="pt-20 grid gap-4">
