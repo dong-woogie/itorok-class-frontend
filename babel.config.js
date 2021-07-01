@@ -4,7 +4,7 @@ function isWebTarget(caller) {
 
 module.exports = (api) => {
   const web = api.caller(isWebTarget)
-  const isProd = process.env.NODE_ENV === 'production'
+  const production = process.env.NODE_ENV === 'production'
 
   return {
     presets: [
@@ -22,7 +22,7 @@ module.exports = (api) => {
       '@babel/preset-typescript',
     ],
     plugins: [
-      isProd && '@loadable/babel-plugin',
+      production && '@loadable/babel-plugin',
       '@babel/plugin-syntax-dynamic-import',
       '@babel/plugin-transform-runtime',
     ].filter(Boolean),

@@ -5,6 +5,7 @@ const Dotenv = require('dotenv-webpack')
 
 function config(target) {
   const isWeb = target === 'web'
+
   return {
     entry: [isWeb ? path.join(__dirname, '../src/index.tsx') : path.join(__dirname, '../src/index.server.tsx')],
     output: isWeb

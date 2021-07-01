@@ -1,9 +1,9 @@
-const commonConfig = require('./webpack.config.common');
-const { merge } = require('webpack-merge');
-const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const webpack = require('webpack');
+const commonConfig = require('./webpack.config.common')
+const { merge } = require('webpack-merge')
+const RefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
 
 module.exports = merge(commonConfig('web'), {
   mode: 'development',
@@ -26,4 +26,4 @@ module.exports = merge(commonConfig('web'), {
     port: 3000,
     historyApiFallback: true,
   },
-});
+})
