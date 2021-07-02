@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { SocialProvider } from '../__generated__/globalTypes'
 
 export interface UserState {
   temporaryAccount: TemporaryAccountState | null
@@ -8,6 +9,7 @@ interface TemporaryAccountState {
   socialId: string
   displayName: string
   thumbnail: string
+  provider: SocialProvider
 }
 
 const initialState: UserState = {

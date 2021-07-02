@@ -9,6 +9,7 @@ export const LOGIN_WITH_SOCIAL = gql`
         socialId
         thumbnail
         displayName
+        provider
       }
     }
   }

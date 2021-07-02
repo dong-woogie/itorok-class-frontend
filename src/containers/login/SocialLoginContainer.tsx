@@ -7,6 +7,7 @@ import SocialLoginComponent from '../../components/login/SocialLoginComponent'
 import { LOGIN_WITH_SOCIAL } from '../../lib/graphql'
 import { loginWithSocialMutation, loginWithSocialMutationVariables } from '../../__generated__/loginWithSocialMutation'
 import userSlice from '../../modules/user'
+import { SocialProvider } from '../../__generated__/globalTypes'
 
 function SocialLoginContainer() {
   const location = useLocation()
@@ -29,15 +30,13 @@ function SocialLoginContainer() {
   }
   const [loginWithSocial, { loading }] = useMutation<loginWithSocialMutation, loginWithSocialMutationVariables>(
     LOGIN_WITH_SOCIAL,
-    {
-      onCompleted,
-    },
+    { onCompleted },
   )
 
   useEffect(() => {
     loginWithSocial({
       variables: {
-        input: { code: code as string, provider: provider as string },
+        input: { code: code as string, provider: provider as SocialProvider },
       },
     })
   }, [])
