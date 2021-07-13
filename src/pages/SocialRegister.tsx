@@ -1,7 +1,18 @@
 import React from 'react'
+import { Helmet } from 'react-helmet-async'
+import Header from '../components/common/Header'
+import RegisterFormContainer from '../containers/register/RegisterFormContainer'
 
 function SocialRegister() {
-  return <div>가입하기</div>
+  return (
+    <div className="">
+      <Helmet>
+        <title>회원가입</title>
+      </Helmet>
+      <Header />
+      <RegisterFormContainer />
+    </div>
+  )
 }
 
 export default SocialRegister
