@@ -10,7 +10,7 @@
     "build": "npm run tailwind:prodbuild && npm run build:client && npm run build:server",
     "build:client": "NODE_ENV=production webpack --progress --config ./config/webpack.config.client.js",
     "build:server": "NODE_ENV=production webpack --progress --config ./config/webpack.config.server.js",
-    "dev": "NODE_ENV=development npm run apollo:codegen && npm run tailwind:build && webpack serve --env=development --config ./config/webpack.config.dev.js",
+    "dev": "NODE_ENV=development npm run tailwind:build && webpack serve --env=development --config ./config/webpack.config.dev.js",
     "apollo:codegen": "rimraf src/__generated__ && apollo client:codegen src/__generated__ --target=typescript --outputFlat"
   },
   "repository": {
@@ -28,6 +28,7 @@
     "@apollo/client": "^3.3.19",
     "@babel/runtime": "^7.14.6",
     "@heroicons/react": "^1.0.1",
+    "@hookform/error-message": "^2.0.0",
     "@loadable/component": "^5.15.0",
     "@loadable/server": "^5.15.0",
     "@reduxjs/toolkit": "^1.5.1",
@@ -42,6 +43,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-helmet-async": "^1.0.9",
+    "react-hook-form": "^7.10.1",
     "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
