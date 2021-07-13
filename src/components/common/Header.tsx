@@ -13,7 +13,7 @@ function Header() {
           ITOROK
         </h1>
         <div className="bg-emerald-400 px-4 flex items-center justify-center text-white font-semibold rounded-md">
-          가입하기
+          클래스 가입하기
         </div>
       </div>
     </div>
