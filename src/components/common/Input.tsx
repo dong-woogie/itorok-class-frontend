@@ -1,16 +1,15 @@
-import React, { ChangeEventHandler, useCallback, useState } from 'react'
+import React, { ChangeEventHandler, forwardRef, useCallback, useState } from 'react'
 
 interface InputProps {
   label?: string
   name: string
   placeholder?: string
-  value?: string
-  disabled?: boolean
-  onChange: ChangeEventHandler
+  onChange?: ChangeEventHandler
+  error?: string
 }
 
-function Input(inputProps: InputProps) {
-  const { label, name, onChange, placeholder, value, disabled } = inputProps
+const Input = forwardRef((inputProps: InputProps, ref: any) => {
+  const { label, name, onChange, placeholder, error, ...rest } = inputProps
   const [focus, setFocus] = useState(false)
 
   const onFocus = useCallback(() => {
@@ -22,24 +21,25 @@ function Input(inputProps: InputProps) {
   }, [])
 
   return (
-    <div className="py-2">
-      <label htmlFor={name} className={`font-semibold text-lg ${focus ? 'text-sky-400' : 'text-gray-800'}`}>
+    <div className="py-2 text-lg font-semibold sm:text-base sm:font-normal">
+      <label htmlFor={name} className={`${focus ? 'text-sky-400' : 'text-gray-800'}`}>
         {label}
-        <input
-          name={name}
-          className={`w-full pt-3 pb-2 border-b-2 outline-none text-lg font-semibold tracking-wider placeholder-gray-300 ${
-            focus ? 'border-sky-400' : 'border-gray-300'
-          }`}
-          placeholder={placeholder}
-          value={value}
-          disabled={disabled}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onChange={onChange}
-        />
       </label>
+      <input
+        {...rest}
+        name={name}
+        className={`w-full pt-3 pb-2 border-b-2 outline-none tracking-wider placeholder-gray-300 ${
+          focus ? 'border-sky-400' : 'border-gray-300'
+        }`}
+        placeholder={placeholder}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onChange={onChange}
+        ref={ref}
+      />
+      {error && <p className="mt-1 text-sm text-rose-400">{error}</p>}
     </div>
   )
-}
+})
 
 export default Input
