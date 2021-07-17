@@ -10,7 +10,7 @@
     "build": "npm run tailwind:prodbuild && npm run build:client && npm run build:server",
     "build:client": "NODE_ENV=production webpack --progress --config ./config/webpack.config.client.js",
     "build:server": "NODE_ENV=production webpack --progress --config ./config/webpack.config.server.js",
-    "dev": "NODE_ENV=development npm run tailwind:build && webpack serve --env=development --config ./config/webpack.config.dev.js",
+    "dev": "NODE_ENV=development npm run apollo:codegen && npm run tailwind:build && webpack serve --env=development --config ./config/webpack.config.dev.js",
     "apollo:codegen": "rimraf src/__generated__ && apollo client:codegen src/__generated__ --target=typescript --outputFlat"
   },
   "repository": {

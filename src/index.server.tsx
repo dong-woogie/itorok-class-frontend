@@ -16,7 +16,7 @@ import rootReducer from './modules'
 import { htmlTemplate } from './server/html'
 
 const app = express()
-const PORT = 5001
+const PORT = 3000
 
 const statsFile = path.join(__dirname, '../build/loadable-stats.json')
 
@@ -29,6 +29,9 @@ app.get('*', async (req, res, next) => {
     link: createHttpLink({
       uri: 'http://localhost:4000/graphql',
       fetch: fetch as any,
+      headers: {
+        cookie: req.headers.cookie || '',
+      },
     }),
     cache: new InMemoryCache(),
   })
