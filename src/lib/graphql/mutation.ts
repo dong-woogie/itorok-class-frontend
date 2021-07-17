@@ -8,3 +8,12 @@ export const LOGIN_WITH_SOCIAL = gql`
     }
   }
 `
+
+export const REGISTER_WITH_SOCIAL = gql`
+  mutation registerWithSocialMutation($input: RegisterWithSocialInput!) {
+    registerWithSocial(input: $input) {
+      ok
+      error
+    }
+  }
+`
