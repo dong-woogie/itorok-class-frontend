@@ -1,9 +1,10 @@
+import { ApolloError } from '@apollo/client'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
 interface SocialLoginComponentProps {
   loading?: boolean
-  error?: string
+  error?: ApolloError
 }
 
 function SocialLoginComponent({ loading, error }: SocialLoginComponentProps) {
