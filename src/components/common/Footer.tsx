@@ -1,5 +1,6 @@
 import React from 'react'
 import { HomeIcon, SearchIcon, BellIcon, UserIcon, ChatIcon } from '@heroicons/react/outline'
+import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
@@ -9,7 +10,9 @@ function Footer() {
         <SearchIcon className="h-8 w-8 text-gray-400" />
         <ChatIcon className="h-8 w-8 text-gray-400" />
         <BellIcon className="h-8 w-8 text-gray-400" />
-        <UserIcon className="h-8 w-8 text-gray-400" />
+        <Link to="/login">
+          <UserIcon className="h-8 w-8 text-gray-400" />
+        </Link>
       </div>
     </div>
   )

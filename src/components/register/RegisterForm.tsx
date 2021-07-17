@@ -10,7 +10,7 @@ export interface ProfileType {
 }
 
 interface RegisterFormProps {
-  onSubmit: (profile: ProfileType) => Promise<void>
+  onSubmit: (profile: ProfileType) => void
   defaultValues: Partial<ProfileType>
   error?: string
 }

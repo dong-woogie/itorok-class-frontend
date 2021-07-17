@@ -8,6 +8,7 @@ import './styles/styles.css'
 const HomePage = loadable(() => import('./pages/Home'))
 const LoginPage = loadable(() => import('./pages/Login'))
 const SocialRegisterPage = loadable(() => import('./pages/SocialRegister'))
+const SocialLoginPage = loadable(() => import('./pages/SocialLogin'))
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/social/login" component={SocialLoginPage} />
         <Route path="/social/register" component={SocialRegisterPage} exact />
       </Switch>
     </div>
