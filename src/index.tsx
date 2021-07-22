@@ -7,18 +7,35 @@ import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { createApolloClient } from './apollo'
+import { createApolloClient } from './lib/apollo'
 import App from './App'
 import rootReducer from './modules'
+import { getAccessToken } from './lib/api'
 
-const store = createStore(rootReducer, (window as any).__REDUX_STATE__, composeWithDevTools())
-
-if (process.env.NODE_ENV === 'production') {
-  loadableReady(() =>
-    ReactDom.hydrate(
+async function boost() {
+  const { accessToken } = await getAccessToken()
+  const store = createStore(rootReducer, (window as any).__REDUX_STATE__, composeWithDevTools())
+  const client = createApolloClient(accessToken)
+  if (process.env.NODE_ENV === 'production') {
+    loadableReady(() =>
+      ReactDom.hydrate(
+        <HelmetProvider>
+          <Provider store={store}>
+            <ApolloProvider client={client}>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </ApolloProvider>
+          </Provider>
+        </HelmetProvider>,
+        document.getElementById('root'),
+      ),
+    )
+  } else {
+    ReactDom.render(
       <HelmetProvider>
         <Provider store={store}>
-          <ApolloProvider client={createApolloClient()}>
+          <ApolloProvider client={client}>
             <BrowserRouter>
               <App />
             </BrowserRouter>
@@ -26,19 +43,8 @@ if (process.env.NODE_ENV === 'production') {
         </Provider>
       </HelmetProvider>,
       document.getElementById('root'),
-    ),
-  )
-} else {
-  ReactDom.render(
-    <HelmetProvider>
-      <Provider store={store}>
-        <ApolloProvider client={createApolloClient()}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </ApolloProvider>
-      </Provider>
-    </HelmetProvider>,
-    document.getElementById('root'),
-  )
+    )
+  }
 }
+
+boost()
