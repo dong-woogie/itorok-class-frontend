@@ -5,6 +5,7 @@ export const LOGIN_WITH_SOCIAL = gql`
     loginWithSocial(input: $input) {
       ok
       error
+      accessToken
     }
   }
 `
@@ -14,6 +15,7 @@ export const REGISTER_WITH_SOCIAL = gql`
     registerWithSocial(input: $input) {
       ok
       error
+      accessToken
     }
   }
 `

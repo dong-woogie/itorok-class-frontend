@@ -5,4 +5,9 @@ const api = axios.create({
   baseURL: process.env.API_URI,
 })
 
+export const getAccessToken = async () => {
+  const { data } = await api.get<{ ok: boolean; accessToken?: string; error?: string }>('/api/refresh')
+  return data
+}
+
 export default api
