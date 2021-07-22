@@ -1,7 +1,8 @@
-import { useMutation, useQuery } from '@apollo/client'
+import { useApolloClient, useMutation, useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useHistory } from 'react-router'
 import RegisterForm, { ProfileType } from '../../components/register/RegisterForm'
+import { splitLink } from '../../lib/apollo/link'
 import { GET_SOCIAL_PROFILE, REGISTER_WITH_SOCIAL } from '../../lib/graphql'
 import { GetSocialProfile } from '../../__generated__/GetSocialProfile'
 import {
@@ -13,14 +14,17 @@ function RegisterFormContainer() {
   const history = useHistory()
   const [error, setError] = useState('')
   const { data } = useQuery<GetSocialProfile>(GET_SOCIAL_PROFILE)
+  const client = useApolloClient()
 
   const onCompleted = ({ registerWithSocial }: registerWithSocialMutation) => {
-    if (registerWithSocial.ok) history.push('/')
-    if (registerWithSocial.error) {
-      setError(registerWithSocial?.error || '')
-      return
+    if (registerWithSocial.ok) {
+      client.setLink(splitLink(registerWithSocial?.accessToken || ''))
+      return history.push('/')
     }
-    history.push('/login')
+    if (registerWithSocial.error) {
+      return setError(registerWithSocial?.error || '')
+    }
+    return history.push('/login')
   }
 
   const [registerWithSocial] = useMutation<registerWithSocialMutation, registerWithSocialMutationVariables>(
@@ -44,7 +48,7 @@ function RegisterFormContainer() {
         <RegisterForm
           onSubmit={onSubmit}
           defaultValues={{
-            username: data?.getSocialProfile.profile.usrename || '',
+            username: data?.getSocialProfile.profile.username || '',
             displayName: data?.getSocialProfile.profile.displayName || '',
             shortBio: data?.getSocialProfile.profile.shortBio || '',
           }}
