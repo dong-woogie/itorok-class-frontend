@@ -10,7 +10,7 @@ import { getAccessToken } from '../api'
 const API_URI = 'http://localhost:4000/graphql'
 const WS_URI = 'ws://localhost:4000/graphql'
 
-const authLink = (accessToken?: string, cookie?: string) => {
+export const authLink = (accessToken?: string, cookie?: string) => {
   return setContext((_, previousContext) => ({
     headers: {
       ...previousContext.headers,
@@ -62,7 +62,11 @@ const wsLink = (accessToken?: string, cookie?: string) =>
   })
 
 export const splitLink = (accessToken?: string, cookie?: string) =>
-  split(({ query }) => {
-    const definition = getMainDefinition(query)
-    return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
-  }, errorLink.concat(authLink(accessToken, cookie)).concat(httpLink(!!cookie)))
+  split(
+    ({ query }) => {
+      const definition = getMainDefinition(query)
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+    },
+    wsLink(accessToken, cookie),
+    errorLink.concat(authLink(accessToken, cookie)).concat(httpLink(!!cookie)),
+  )
