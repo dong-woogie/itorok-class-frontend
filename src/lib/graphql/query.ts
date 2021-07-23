@@ -13,3 +13,16 @@ export const GET_SOCIAL_PROFILE = gql`
     }
   }
 `
+
+export const GET_USER_ON_LOAD = gql`
+  query getUserOnLoad {
+    getUserOnLoad {
+      id
+      username
+      profile {
+        displayName
+        thumbnail
+      }
+    }
+  }
+`
