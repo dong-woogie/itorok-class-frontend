@@ -13,7 +13,7 @@ import {
 function RegisterFormContainer() {
   const history = useHistory()
   const [error, setError] = useState('')
-  const { data } = useQuery<GetSocialProfile>(GET_SOCIAL_PROFILE)
+  const { data } = useQuery<GetSocialProfile>(GET_SOCIAL_PROFILE, { fetchPolicy: 'network-only' })
   const client = useApolloClient()
 
   const onCompleted = ({ registerWithSocial }: registerWithSocialMutation) => {
