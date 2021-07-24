@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
-
-.base-wrap {
-}
-
 @tailwind utilities;
+
+@layer components {
+  .base-wrap {
+    @apply relative max-w-screen-sm mx-auto min-h-screen bg-white shadow-inner border border-t-0 border-b-0 border-gray-50;
+  }
+}

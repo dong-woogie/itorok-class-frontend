@@ -4,7 +4,7 @@ import Header from '../components/common/Header'
 
 function Home() {
   return (
-    <div>
+    <div className="base-wrap flex flex-col">
       <Header />
       <div>BODY</div>
       <Footer />
