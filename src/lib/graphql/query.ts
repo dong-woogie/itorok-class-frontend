@@ -26,3 +26,14 @@ export const GET_USER_ON_LOAD = gql`
     }
   }
 `
+
+export const GET_POPULAR_CATEOGRIES = gql`
+  query getPopularCategories {
+    getPopularCategories {
+      id
+      name
+      slug
+      coverImg
+    }
+  }
+`
