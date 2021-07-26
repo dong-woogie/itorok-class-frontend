@@ -8,7 +8,7 @@ function MainSlider() {
     arrows: false,
     dots: true,
     autoplay: true,
-    autoplaySpeed: 1500,
+    autoplaySpeed: 3000,
     pauseOnHover: true,
     draggable: true,
   } as Settings
