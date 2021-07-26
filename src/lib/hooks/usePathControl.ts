@@ -1,12 +1,11 @@
 import { useEffect } from 'react'
-import { LoadableComponent } from '@loadable/component'
 import { useHistory, useLocation } from 'react-router'
-import { useUser } from '../lib/hooks/useUser'
+import { useUser } from './useUser'
 
-function withLogged(Component: LoadableComponent<unknown>) {
-  const history = useHistory()
-  const location = useLocation()
+export function usePathControl() {
   const { data } = useUser()
+  const location = useLocation()
+  const history = useHistory()
 
   useEffect(() => {
     if (
@@ -17,8 +16,4 @@ function withLogged(Component: LoadableComponent<unknown>) {
       if (data) history.push('/')
     }
   }, [location.pathname])
-
-  return Component
 }
-
-export default withLogged
