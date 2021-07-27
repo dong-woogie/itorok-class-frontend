@@ -14,7 +14,7 @@ function Overlay({ children, title, onClose }: OverlayProps) {
         <div />
         <h3 className="text-lg">{title}</h3>
         <div>
-          <XIcon className="w6 h-6" onClick={onClose} />
+          <XIcon className="w6 h-6 cursor-pointer" onClick={onClose} />
         </div>
       </div>
       {children}
