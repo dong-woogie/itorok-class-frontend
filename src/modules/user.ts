@@ -1,32 +1,28 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SocialProvider } from '../__generated__/globalTypes'
+import { getUserOnLoad_getUserOnLoad } from '../__generated__/getUserOnLoad'
 
-export interface UserState {
-  temporaryAccount: TemporaryAccountState | null
+export interface IUserState {
+  user: getUserOnLoad_getUserOnLoad | null
 }
 
-interface TemporaryAccountState {
-  socialId: string
-  displayName: string
-  thumbnail: string
-  provider: SocialProvider
-}
-
-const initialState: UserState = {
-  temporaryAccount: null,
+const initialState: IUserState = {
+  user: null,
 }
 
 const user = createSlice({
   initialState,
   name: 'user',
   reducers: {
-    setTemporaryAccount(state, action: PayloadAction<TemporaryAccountState>) {
-      state.temporaryAccount = action.payload
+    setUser(state, action: PayloadAction<getUserOnLoad_getUserOnLoad>) {
+      state.user = action.payload
     },
-    resetTemporaryAccount(state) {
-      state.temporaryAccount = null
+
+    resetUser(state) {
+      state.user = null
     },
   },
 })
 
-export default user
+export const { setUser, resetUser } = user.actions
+
+export default user.reducer

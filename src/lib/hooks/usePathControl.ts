@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router'
-import { useUser } from './useUser'
+import { useTypedSelect } from '../../modules'
 
 export function usePathControl() {
-  const { data } = useUser()
+  const user = useTypedSelect((state) => state.user.user)
   const location = useLocation()
   const history = useHistory()
 
@@ -13,7 +13,7 @@ export function usePathControl() {
       location.pathname === '/social/login' ||
       location.pathname === '/social/register'
     ) {
-      if (data) history.push('/')
+      if (user) history.push('/')
     }
-  }, [location.pathname])
+  }, [location.pathname, user])
 }

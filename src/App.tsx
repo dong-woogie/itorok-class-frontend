@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async'
 import Favicon from './image/favicon_32x32.ico'
 import './styles/styles.css'
 import { usePathControl } from './lib/hooks/usePathControl'
+import { useLoad } from './lib/hooks/useLoad'
 
 const HomePage = loadable(() => import('./pages/Home'))
 const LoginPage = loadable(() => import('./pages/Login'))
@@ -12,6 +13,7 @@ const SocialRegisterPage = loadable(() => import('./pages/SocialRegister'))
 const SocialLoginPage = loadable(() => import('./pages/SocialLogin'))
 
 function App() {
+  useLoad()
   usePathControl()
   return (
     <div className="min-h-screen bg-gray-200">
