@@ -6,6 +6,14 @@ export const LOGIN_WITH_SOCIAL = gql`
       ok
       error
       accessToken
+      user {
+        id
+        username
+        profile {
+          displayName
+          thumbnail
+        }
+      }
     }
   }
 `
@@ -16,6 +24,20 @@ export const REGISTER_WITH_SOCIAL = gql`
       ok
       error
       accessToken
+      user {
+        id
+        username
+        profile {
+          displayName
+          thumbnail
+        }
+      }
     }
+  }
+`
+
+export const LOGOUT_MUTATION = gql`
+  mutation logoutMutation {
+    logout
   }
 `

@@ -1,9 +1,11 @@
 import { useApolloClient, useMutation, useQuery } from '@apollo/client'
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
 import RegisterForm, { ProfileType } from '../../components/register/RegisterForm'
 import { splitLink } from '../../lib/apollo/link'
 import { GET_SOCIAL_PROFILE, REGISTER_WITH_SOCIAL } from '../../lib/graphql'
+import { setUser } from '../../modules/user'
 import { GetSocialProfile } from '../../__generated__/GetSocialProfile'
 import {
   registerWithSocialMutation,
@@ -15,10 +17,11 @@ function RegisterFormContainer() {
   const [error, setError] = useState('')
   const { data } = useQuery<GetSocialProfile>(GET_SOCIAL_PROFILE, { fetchPolicy: 'network-only' })
   const client = useApolloClient()
-
+  const dispatch = useDispatch()
   const onCompleted = ({ registerWithSocial }: registerWithSocialMutation) => {
     if (registerWithSocial.ok) {
       client.setLink(splitLink(registerWithSocial?.accessToken || ''))
+      if (registerWithSocial.user) dispatch(setUser(registerWithSocial.user))
       return history.push('/')
     }
     if (registerWithSocial.error) {
@@ -29,9 +32,7 @@ function RegisterFormContainer() {
 
   const [registerWithSocial] = useMutation<registerWithSocialMutation, registerWithSocialMutationVariables>(
     REGISTER_WITH_SOCIAL,
-    {
-      onCompleted,
-    },
+    { onCompleted, fetchPolicy: 'no-cache' },
   )
 
   const onSubmit = (profile: ProfileType) => {
