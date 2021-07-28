@@ -5,17 +5,17 @@ import { useHistory } from 'react-router'
 import SocialLoginComponent from '../../components/login/SocialLoginComponent'
 import { splitLink } from '../../lib/apollo/link'
 import { LOGIN_WITH_SOCIAL } from '../../lib/graphql'
-import { useLoad } from '../../lib/hooks/useLoad'
 import { setUser } from '../../modules/user'
-import { ErrorMessage, SocialProvider } from '../../__generated__/globalTypes'
+import { ErrorMessage, SocialProvider, UserRole } from '../../__generated__/globalTypes'
 import { loginWithSocialMutation, loginWithSocialMutationVariables } from '../../__generated__/loginWithSocialMutation'
 
 interface SocialLoginContainerProps {
   code: string
-  state: SocialProvider
+  provider: SocialProvider
+  role: UserRole
 }
 
-function SocialLoginContainer({ code, state }: SocialLoginContainerProps) {
+function SocialLoginContainer({ code, provider, role }: SocialLoginContainerProps) {
   const history = useHistory()
   const client = useApolloClient()
   const dispatch = useDispatch()
@@ -25,7 +25,8 @@ function SocialLoginContainer({ code, state }: SocialLoginContainerProps) {
       if (loginWithSocial.user) dispatch(setUser(loginWithSocial.user))
       return history.push('/')
     }
-    if (loginWithSocial.error === ErrorMessage.NOT_REGISTER) return history.push('/social/register')
+    if (loginWithSocial.error === ErrorMessage.NOT_REGISTER_MENTOR) return history.push('/social/mentor/register')
+    if (loginWithSocial.error === ErrorMessage.NOT_REGISTER_CLIENT) return history.push('/social/client/register')
     return history.push('/login')
   }
 
@@ -37,7 +38,7 @@ function SocialLoginContainer({ code, state }: SocialLoginContainerProps) {
   useEffect(() => {
     socialLogin({
       variables: {
-        input: { code, state },
+        input: { code, provider, role },
       },
     })
   }, [])
