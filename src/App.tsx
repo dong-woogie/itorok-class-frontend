@@ -11,12 +11,13 @@ const HomePage = loadable(() => import('./pages/Home'))
 const LoginPage = loadable(() => import('./pages/Login'))
 const SocialRegisterPage = loadable(() => import('./pages/SocialRegister'))
 const SocialLoginPage = loadable(() => import('./pages/SocialLogin'))
+const SocialMentorRegisterPage = loadable(() => import('./pages/SocialMentorRegister'))
 
 function App() {
   useLoad()
   usePathControl()
   return (
-    <div className="min-h-screen bg-gray-200">
+    <div className="h-screen">
       <Helmet>
         <title>itorok class</title>
         <link rel="shortcut icon" href={Favicon} />
@@ -25,7 +26,8 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/social/login" component={SocialLoginPage} />
-        <Route path="/social/register" component={SocialRegisterPage} exact />
+        <Route path="/social/client/register" component={SocialRegisterPage} exact />
+        <Route path="/social/mentor/register" component={SocialMentorRegisterPage} exact />
       </Switch>
     </div>
   )
