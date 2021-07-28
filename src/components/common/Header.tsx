@@ -1,17 +1,13 @@
 import React, { useCallback, useState } from 'react'
-import { useHistory } from 'react-router'
+import { Link } from 'react-router-dom'
 import { useLogout } from '../../lib/hooks/useLogout'
 import { useTypedSelect } from '../../modules'
+import { UserRole } from '../../__generated__/globalTypes'
 
 function Header() {
-  const history = useHistory()
   const [profilePopover, setProfilePopover] = useState(false)
   const user = useTypedSelect((state) => state.user.user)
   const logout = useLogout()
-  const onClickLogo = useCallback(() => {
-    history.push('/login')
-  }, [])
-
   const onFocus = useCallback(() => setProfilePopover(true), [])
   const onBlur = useCallback(() => setProfilePopover(false), [])
 
@@ -23,8 +19,8 @@ function Header() {
   return (
     <div className="border-b bg-white">
       <div className="px-4 py-2 flex justify-between">
-        <h1 onClick={onClickLogo} className="text-2xl text-gray-800 font-bold font-serif tracking-wider cursor-pointer">
-          ITOROK
+        <h1 className="text-2xl text-gray-800 font-bold font-serif tracking-wider cursor-pointer">
+          <Link to="/">ITOROK</Link>
         </h1>
 
         {user ? (
@@ -42,8 +38,8 @@ function Header() {
             )}
           </button>
         ) : (
-          <div className="bg-emerald-400 px-4 flex items-center justify-center text-white font-semibold rounded-md">
-            클래스 가입하기
+          <div className="bg-emerald-400 px-4 flex items-center justify-center text-white font-semibold rounded-md text-sm">
+            <Link to={`/login?role=${UserRole.mentor}`}>멘토 로그인</Link>
           </div>
         )}
       </div>
