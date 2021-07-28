@@ -21,16 +21,22 @@ const Input = forwardRef((inputProps: InputProps, ref: any) => {
   }, [])
 
   return (
-    <div className="py-2 text-lg font-semibold sm:text-base sm:font-normal">
-      <label htmlFor={name} className={`${focus ? 'text-sky-400' : 'text-gray-800'}`}>
+    <div className="py-2 text-base font-semibold">
+      <label
+        htmlFor={name}
+        className={`
+        font-semibold
+        ${error && 'text-rose-400'}
+        ${focus ? 'text-sky-400' : 'text-gray-800'}`}
+      >
         {label}
       </label>
       <input
         {...rest}
         name={name}
-        className={`w-full pt-3 pb-2 border-b-2 outline-none tracking-wider placeholder-gray-300 ${
-          focus ? 'border-sky-400' : 'border-gray-300'
-        }`}
+        className={`w-full pt-1 pb-2 border-b-2 outline-none tracking-wider placeholder-gray-300 ${
+          error && 'border-rose-400'
+        } ${focus ? 'border-sky-400' : 'border-gray-300'}`}
         placeholder={placeholder}
         onFocus={onFocus}
         onBlur={onBlur}
