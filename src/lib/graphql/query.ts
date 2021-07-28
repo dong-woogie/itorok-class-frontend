@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client'
+import { USER_FRAGMENT } from './fragments'
 
 export const GET_SOCIAL_PROFILE = gql`
   query GetSocialProfile {
@@ -17,14 +18,10 @@ export const GET_SOCIAL_PROFILE = gql`
 export const GET_USER_ON_LOAD = gql`
   query getUserOnLoad {
     getUserOnLoad {
-      id
-      username
-      profile {
-        displayName
-        thumbnail
-      }
+      ...UserParts
     }
   }
+  ${USER_FRAGMENT}
 `
 
 export const GET_POPULAR_CATEOGRIES = gql`

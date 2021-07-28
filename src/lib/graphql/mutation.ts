@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client'
+import { USER_FRAGMENT } from './fragments'
 
 export const LOGIN_WITH_SOCIAL = gql`
   mutation loginWithSocialMutation($input: LoginWithSocialInput!) {
@@ -7,15 +8,11 @@ export const LOGIN_WITH_SOCIAL = gql`
       error
       accessToken
       user {
-        id
-        username
-        profile {
-          displayName
-          thumbnail
-        }
+        ...UserParts
       }
     }
   }
+  ${USER_FRAGMENT}
 `
 
 export const REGISTER_WITH_SOCIAL = gql`
@@ -25,15 +22,11 @@ export const REGISTER_WITH_SOCIAL = gql`
       error
       accessToken
       user {
-        id
-        username
-        profile {
-          displayName
-          thumbnail
-        }
+        ...UserParts
       }
     }
   }
+  ${USER_FRAGMENT}
 `
 
 export const LOGOUT_MUTATION = gql`
