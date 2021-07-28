@@ -1,15 +1,16 @@
 import { combineReducers } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
-import { DialogState } from './dialog'
-import userReducer, { IUserState } from './user'
+import dialogReducer, { DialogState } from './dialog'
+import userReducer, { UserStateType } from './user'
 
 export interface RootState {
   dialog: DialogState
-  user: IUserState
+  user: UserStateType
 }
 
 export default combineReducers({
   user: userReducer,
+  dialog: dialogReducer,
 })
 
 export const useTypedSelect: TypedUseSelectorHook<RootState> = useSelector

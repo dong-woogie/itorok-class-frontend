@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getUserOnLoad_getUserOnLoad } from '../__generated__/getUserOnLoad'
 
-export interface IUserState {
+export interface UserStateType {
   user: getUserOnLoad_getUserOnLoad | null
 }
 
-const initialState: IUserState = {
+const initialState: UserStateType = {
   user: null,
 }
 
