@@ -1,21 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface DialogState {
-  dialog: boolean
+  addressDialog: AddressDialogType | null
+}
+
+export interface AddressDialogType {
+  onComplete: (address: string) => void
 }
 
 const initialState: DialogState = {
-  dialog: false,
+  addressDialog: null,
 }
 
 const dialog = createSlice({
   initialState,
   name: 'dialog',
   reducers: {
-    toggleDialog: (state: DialogState) => {
-      state.dialog = !state.dialog
+    openAddressDialog(state, action: PayloadAction<AddressDialogType>) {
+      state.addressDialog = action.payload
+    },
+    closeAddressDialog(state) {
+      state.addressDialog = null
     },
   },
 })
 
-export default dialog
+export const { openAddressDialog, closeAddressDialog } = dialog.actions
+
+export default dialog.reducer

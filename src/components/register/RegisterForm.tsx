@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import Button from '../common/Button'
+import FixedWrap from '../common/FixedWrap'
 import Input from '../common/Input'
 
 export interface ProfileType {
@@ -47,9 +48,9 @@ function RegisterForm({ onSubmit, defaultValues, error }: RegisterFormProps) {
       />
 
       <Input label="한줄 소개" placeholder="한줄로 소개를 해주세요." {...register('shortBio')} />
-      <div className="mt-5">
+      <FixedWrap>
         <Button text="가입하기" size="small" canClick={isValid && !error} />
-      </div>
+      </FixedWrap>
 
       {error && <p className="mt-2 text-sm text-rose-400 text-center">{error}</p>}
     </form>
