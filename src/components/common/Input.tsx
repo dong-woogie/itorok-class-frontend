@@ -1,15 +1,15 @@
-import React, { ChangeEventHandler, forwardRef, useCallback, useState } from 'react'
+import React, { forwardRef, useCallback, useState } from 'react'
 
-interface InputProps {
+interface InputProps extends React.HTMLProps<HTMLInputElement> {
   label?: string
   name: string
   placeholder?: string
-  onChange?: ChangeEventHandler
   error?: string
 }
 
 const Input = forwardRef((inputProps: InputProps, ref: any) => {
   const { label, name, onChange, placeholder, error, ...rest } = inputProps
+  const htmlProps = rest as any
   const [focus, setFocus] = useState(false)
 
   const onFocus = useCallback(() => {
@@ -32,7 +32,7 @@ const Input = forwardRef((inputProps: InputProps, ref: any) => {
         {label}
       </label>
       <input
-        {...rest}
+        {...htmlProps}
         name={name}
         className={`w-full pt-1 pb-2 border-b-2 outline-none tracking-wider placeholder-gray-300 ${
           error && 'border-rose-400'
