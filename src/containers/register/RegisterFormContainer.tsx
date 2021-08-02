@@ -2,12 +2,13 @@ import { useApolloClient, useMutation, useQuery } from '@apollo/client'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'
-import RegisterForm, { ProfileType } from '../../components/register/RegisterForm'
+import RegisterForm from '../../components/register/RegisterForm'
 import RegisterFormWrap from '../../components/register/RegisterFormWrap'
 import { splitLink } from '../../lib/apollo/link'
 import { GET_SOCIAL_PROFILE, REGISTER_WITH_SOCIAL } from '../../lib/graphql'
 import { setUser } from '../../modules/user'
 import { GetSocialProfile } from '../../__generated__/GetSocialProfile'
+import { RegisterWithSocialInput } from '../../__generated__/globalTypes'
 import {
   registerWithSocialMutation,
   registerWithSocialMutationVariables,
@@ -19,6 +20,7 @@ function RegisterFormContainer() {
   const { data } = useQuery<GetSocialProfile>(GET_SOCIAL_PROFILE, { fetchPolicy: 'network-only' })
   const client = useApolloClient()
   const dispatch = useDispatch()
+
   const onCompleted = ({ registerWithSocial }: registerWithSocialMutation) => {
     if (registerWithSocial.ok) {
       client.setLink(splitLink(registerWithSocial?.accessToken || ''))
@@ -36,23 +38,27 @@ function RegisterFormContainer() {
     { onCompleted, fetchPolicy: 'no-cache' },
   )
 
-  const onSubmit = (profile: ProfileType) => {
+  const onSubmit = (profile: RegisterWithSocialInput) => {
     registerWithSocial({
-      variables: { input: profile },
+      variables: {
+        input: profile,
+      },
     })
   }
 
   return (
     <RegisterFormWrap title="회원가입하기" description="회원정보를 입력해주세요.">
-      <RegisterForm
-        onSubmit={onSubmit}
-        defaultValues={{
-          username: data?.getSocialProfile?.profile?.username || '',
-          displayName: data?.getSocialProfile?.profile?.displayName || '',
-          shortBio: data?.getSocialProfile?.profile?.shortBio || '',
-        }}
-        error={error}
-      />
+      {data && (
+        <RegisterForm
+          onSubmit={onSubmit}
+          defaultValues={{
+            username: data?.getSocialProfile?.profile?.username || '',
+            displayName: data?.getSocialProfile?.profile?.displayName || '',
+            shortBio: data?.getSocialProfile?.profile?.shortBio || '',
+          }}
+          error={error}
+        />
+      )}
     </RegisterFormWrap>
   )
 }

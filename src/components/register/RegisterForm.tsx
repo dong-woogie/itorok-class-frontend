@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { RegisterWithSocialInput, UserRole } from '../../__generated__/globalTypes'
 import Button from '../common/Button'
 import FixedWrap from '../common/FixedWrap'
 import Input from '../common/Input'
@@ -11,7 +12,7 @@ export interface ProfileType {
 }
 
 interface RegisterFormProps {
-  onSubmit: (profile: ProfileType) => void
+  onSubmit: (profile: RegisterWithSocialInput) => void
   defaultValues: Partial<ProfileType>
   error?: string
 }
@@ -27,8 +28,12 @@ function RegisterForm({ onSubmit, defaultValues, error }: RegisterFormProps) {
     defaultValues,
   })
 
-  const onSubmitForm = handleSubmit(async () => {
-    await onSubmit(getValues())
+  const onSubmitForm = handleSubmit(() => {
+    const profile = getValues()
+    onSubmit({
+      ...profile,
+      role: UserRole.client,
+    })
   })
 
   return (
@@ -49,7 +54,7 @@ function RegisterForm({ onSubmit, defaultValues, error }: RegisterFormProps) {
 
       <Input label="한줄 소개" placeholder="한줄로 소개를 해주세요." {...register('shortBio')} />
       <FixedWrap>
-        <Button text="가입하기" size="small" canClick={isValid && !error} />
+        <Button text="가입하기" size="sm" canClick={isValid && !error} />
       </FixedWrap>
 
       {error && <p className="mt-2 text-sm text-rose-400 text-center">{error}</p>}
