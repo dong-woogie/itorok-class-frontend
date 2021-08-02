@@ -8,7 +8,7 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
 }
 
 const Input = forwardRef((inputProps: InputProps, ref: any) => {
-  const { label, name, onChange, placeholder, error, ...rest } = inputProps
+  const { label, name, onChange, placeholder, readOnly, error, ...rest } = inputProps
   const htmlProps = rest as any
   const [focus, setFocus] = useState(false)
 
@@ -20,27 +20,39 @@ const Input = forwardRef((inputProps: InputProps, ref: any) => {
     setFocus(false)
   }, [])
 
+  const focusAndErrorBorderStyle = useCallback(() => {
+    if (error) return 'border-rose-400'
+    if (focus) return 'border-emerald-400'
+    return 'border-gray-300'
+  }, [error, focus])
+
+  const focusAndErrorTextStyle = useCallback(() => {
+    if (error) return 'text-rose-400'
+    if (focus) return 'text-emerald-400'
+    return 'text-gray-800'
+  }, [error, focus])
+
   return (
     <div className="py-2 text-base font-semibold">
       <label
         htmlFor={name}
         className={`
         font-semibold
-        ${error && 'text-rose-400'}
-        ${focus ? 'text-sky-400' : 'text-gray-800'}`}
+        ${focusAndErrorTextStyle()}`}
       >
         {label}
       </label>
       <input
         {...htmlProps}
         name={name}
-        className={`w-full pt-1 pb-2 border-b-2 outline-none tracking-wider placeholder-gray-300 ${
-          error && 'border-rose-400'
-        } ${focus ? 'border-sky-400' : 'border-gray-300'}`}
+        className={`w-full pt-1 pb-2 border-b-2 outline-none tracking-wider placeholder-gray-300 ${focusAndErrorBorderStyle()} ${
+          readOnly && 'text-gray-400 bg-gray-100'
+        }`}
         placeholder={placeholder}
         onFocus={onFocus}
         onBlur={onBlur}
         onChange={onChange}
+        readOnly={readOnly}
         ref={ref}
       />
       {error && <p className="mt-1 text-sm text-rose-400">{error}</p>}
