@@ -35,8 +35,10 @@ function Footer() {
         </div>
 
         <div className="relative flex flex-col items-center">
-          <UserIcon className={`h-7 w-7 ${highlightColorToMatchPath('/unknown')}`} />
-          <span className="font-extralight text-xs">내정보</span>
+          <Link to="/mypage">
+            <UserIcon className={`h-7 w-7 ${highlightColorToMatchPath('/mypage')}`} />
+            <span className="font-extralight text-xs">내정보</span>
+          </Link>
         </div>
       </div>
     </div>

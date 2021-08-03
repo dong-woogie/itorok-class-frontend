@@ -6,6 +6,8 @@ export const USER_FRAGMENT = gql`
     username
     role
     gender
+    address
+    detailAddress
     profile {
       displayName
       thumbnail

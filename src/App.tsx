@@ -23,9 +23,11 @@ function App() {
         <link rel="shortcut icon" href={Favicon} />
       </Helmet>
       <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/social/login" component={SocialLoginPage} />
+        <Route path="/" component={HomePage} exact />
+        <Route path="/login" component={LoginPage} exact />
+        <Route path="/mypage" component={MentorMyPage} exact />
+        <Route path="/class/create" component={CreateClassPage} exact />
+        <Route path="/social/login" component={SocialLoginPage} exact />
         <Route path="/social/client/register" component={SocialRegisterPage} exact />
         <Route path="/social/mentor/register" component={SocialMentorRegisterPage} exact />
       </Switch>
