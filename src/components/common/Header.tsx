@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useLogout } from '../../lib/hooks/useLogout'
 import { useTypedSelect } from '../../modules'
 import { UserRole } from '../../__generated__/globalTypes'
 
 function Header() {
   const [profilePopover, setProfilePopover] = useState(false)
+  const history = useHistory()
   const user = useTypedSelect((state) => state.user.user)
   const logout = useLogout()
   const onFocus = useCallback(() => setProfilePopover(true), [])
@@ -13,6 +14,11 @@ function Header() {
 
   const onClickLogoutButton = async () => {
     logout()
+    onBlur()
+  }
+
+  const onClickMypageButton = () => {
+    history.push('/mypage')
     onBlur()
   }
 
@@ -30,8 +36,11 @@ function Header() {
             </div>
 
             {profilePopover && (
-              <div className="absolute border border-gray-300 rounded-sm w-24 bg-white -right-1/3 top-full z-10 mt-1 shadow-2xl">
-                <div className="flex items-center justify-center p-2 cursor-pointer" onClick={onClickLogoutButton}>
+              <div className="absolute border border-gray-300 rounded-sm w-32 bg-white -right-1/3 top-full z-10 mt-1 shadow-2xl">
+                <div className="flex justify-center p-2 cursor-pointer" onClick={onClickMypageButton}>
+                  마이페이지
+                </div>
+                <div className="flex justify-center p-2 cursor-pointer" onClick={onClickLogoutButton}>
                   로그아웃
                 </div>
               </div>

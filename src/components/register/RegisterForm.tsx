@@ -42,6 +42,7 @@ function RegisterForm({ onSubmit, defaultValues, error }: RegisterFormProps) {
         label="아이디"
         placeholder="아이디를 입력해주세요."
         error={errors.username?.message}
+        required
         {...register('username', { required: '아이디 입력은 필수입니다.' })}
       />
 
@@ -49,6 +50,7 @@ function RegisterForm({ onSubmit, defaultValues, error }: RegisterFormProps) {
         label="사용닉네임"
         placeholder="닉네임을 입력해주세요."
         error={errors.displayName?.message}
+        required
         {...register('displayName', { required: '닉네임 입력은 필수입니다.' })}
       />
 

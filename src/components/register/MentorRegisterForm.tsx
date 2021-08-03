@@ -98,12 +98,14 @@ function MentorRegisterForm({ defaultValues, sendCode, verifyCode, onSubmit, err
         label="아이디"
         placeholder="아이디를 입력해주세요."
         error={errors.username?.message}
+        required
         {...register('username', { required: '아이디를 입력해주세요' })}
       />
       <Input
         label="사용닉네임"
         placeholder="닉네임을 입력해주세요."
         error={errors.displayName?.message}
+        required
         {...register('displayName', { required: '닉네임을 입력해주세요.' })}
       />
 
@@ -120,6 +122,7 @@ function MentorRegisterForm({ defaultValues, sendCode, verifyCode, onSubmit, err
             pattern: /^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/,
           })}
           error={phoneFormErrorMessage()}
+          required
           readOnly={isCertified}
         />
         {!isCertified && (
@@ -142,6 +145,7 @@ function MentorRegisterForm({ defaultValues, sendCode, verifyCode, onSubmit, err
             format="####"
             label="인증번호"
             placeholder="SMS 인증번호를 입력해주세요."
+            required
             {...register('code', {
               required: '인증번호를 입력해주세요.',
             })}

@@ -5,10 +5,11 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   name: string
   placeholder?: string
   error?: string
+  description?: string
 }
 
 const Input = forwardRef((inputProps: InputProps, ref: any) => {
-  const { label, name, onChange, placeholder, readOnly, error, ...rest } = inputProps
+  const { label, name, onChange, placeholder, description, readOnly, error, required, ...rest } = inputProps
   const htmlProps = rest as any
   const [focus, setFocus] = useState(false)
 
@@ -33,15 +34,12 @@ const Input = forwardRef((inputProps: InputProps, ref: any) => {
   }, [error, focus])
 
   return (
-    <div className="py-2 text-base font-semibold">
-      <label
-        htmlFor={name}
-        className={`
-        font-semibold
-        ${focusAndErrorTextStyle()}`}
-      >
+    <div className="py-2">
+      <label htmlFor={name} className={`${focusAndErrorTextStyle()}`}>
         {label}
       </label>
+      {required && <span className="text-xl mx-2 text-rose-400">*</span>}
+      {description && <p className="text-xs font-extralight">{description}</p>}
       <input
         {...htmlProps}
         name={name}
@@ -54,6 +52,7 @@ const Input = forwardRef((inputProps: InputProps, ref: any) => {
         onChange={onChange}
         readOnly={readOnly}
         ref={ref}
+        required={required}
       />
       {error && <p className="mt-1 text-sm text-rose-400">{error}</p>}
     </div>
