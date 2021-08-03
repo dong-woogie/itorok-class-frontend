@@ -12,6 +12,8 @@ const LoginPage = loadable(() => import('./pages/Login'))
 const SocialRegisterPage = loadable(() => import('./pages/SocialRegister'))
 const SocialLoginPage = loadable(() => import('./pages/SocialLogin'))
 const SocialMentorRegisterPage = loadable(() => import('./pages/SocialMentorRegister'))
+const MentorMyPage = loadable(() => import('./pages/MentorMyPage'))
+const CreateClassPage = loadable(() => import('./pages/CreateClass'))
 
 function App() {
   useLoad()
