@@ -25,6 +25,13 @@ module.exports = (api) => {
       production && '@loadable/babel-plugin',
       '@babel/plugin-syntax-dynamic-import',
       '@babel/plugin-transform-runtime',
+      [
+        'babel-plugin-styled-components',
+        {
+          ssr: true,
+          displayName: false,
+        },
+      ],
     ].filter(Boolean),
   }
 }

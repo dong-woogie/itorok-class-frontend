@@ -1,21 +1,16 @@
-import { ChunkExtractor } from "@loadable/server";
-import { HelmetData } from "react-helmet-async";
+import { ChunkExtractor } from '@loadable/server'
+import { HelmetData } from 'react-helmet-async'
 
 interface HtmlProps {
-  extractor: ChunkExtractor;
-  content: string;
-  apolloState: any;
-  reduxState: any;
-  helmet: HelmetData;
+  extractor: ChunkExtractor
+  content: string
+  apolloState: any
+  reduxState: any
+  helmet: HelmetData
+  styleTags: any
 }
 
-export const htmlTemplate = ({
-  extractor,
-  content,
-  reduxState,
-  apolloState,
-  helmet,
-}: HtmlProps) => `
+export const htmlTemplate = ({ extractor, content, reduxState, apolloState, helmet, styleTags }: HtmlProps) => `
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -27,18 +22,13 @@ export const htmlTemplate = ({
     ${helmet.title.toString()}
     ${extractor.getLinkTags()}
     ${extractor.getStyleTags()}
+    ${styleTags}
   </head>
   <body>
     <div id="root">${content}</div>
   </body>
-  <script>window.__APOLLO_STATE__ = ${JSON.stringify(apolloState).replace(
-    /</g,
-    "\\u003c"
-  )}</script>
-  <script>window.__REDUX_STATE__ = ${JSON.stringify(reduxState).replace(
-    /</g,
-    "\\u003c"
-  )}</script>
+  <script>window.__APOLLO_STATE__ = ${JSON.stringify(apolloState).replace(/</g, '\\u003c')}</script>
+  <script>window.__REDUX_STATE__ = ${JSON.stringify(reduxState).replace(/</g, '\\u003c')}</script>
   ${extractor.getScriptTags()}
 </html>
-`;
+`

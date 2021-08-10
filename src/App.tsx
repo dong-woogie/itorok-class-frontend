@@ -14,6 +14,7 @@ const SocialLoginPage = loadable(() => import('./pages/SocialLogin'))
 const SocialMentorRegisterPage = loadable(() => import('./pages/SocialMentorRegister'))
 const MentorMyPage = loadable(() => import('./pages/MentorMyPage'))
 const CreateClassPage = loadable(() => import('./pages/CreateClass'))
+const WritePage = loadable(() => import('./pages/WritePage'))
 
 function App() {
   useLoad()
@@ -32,6 +33,7 @@ function App() {
         <Route path="/social/login" component={SocialLoginPage} exact />
         <Route path="/social/client/register" component={SocialRegisterPage} exact />
         <Route path="/social/mentor/register" component={SocialMentorRegisterPage} exact />
+        <Route path="/write" component={WritePage} exact />
       </Switch>
     </div>
   )
