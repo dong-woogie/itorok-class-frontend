@@ -1,20 +1,20 @@
 import React from 'react'
 import express from 'express'
 import { renderToString } from 'react-dom/server'
-import { StaticRouter } from 'react-router'
 import { ChunkExtractor } from '@loadable/server'
+import { ServerStyleSheet } from 'styled-components'
 import path from 'path'
 import serveStatic from 'serve-static'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
+import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { getDataFromTree } from '@apollo/client/react/ssr'
-import { FilledContext, HelmetProvider } from 'react-helmet-async'
-import { Provider } from 'react-redux'
+import { FilledContext } from 'react-helmet-async'
 import { createStore } from 'redux'
-import App from './App'
 import rootReducer from './modules'
 import { htmlTemplate } from './server/html'
 import { getAccessToken } from './lib/api'
 import { authLink, errorLink, httpLink } from './lib/apollo/link'
+import { setUser } from './modules/user'
+import RenderJsx from './server/RenderJsx'
 
 const app = express()
 const PORT = 3000
@@ -35,30 +35,29 @@ app.get('*', async (req, res, next) => {
 
   const helmetContext = {} as FilledContext
   const store = createStore(rootReducer)
-  const reduxState = store.getState()
-  const jsx = extractor.collectChunks(
-    <HelmetProvider context={helmetContext}>
-      <Provider store={store}>
-        <ApolloProvider client={client}>
-          <StaticRouter location={req.url}>
-            <App />
-          </StaticRouter>
-        </ApolloProvider>
-      </Provider>
-    </HelmetProvider>,
-  )
+
+  const jsx = extractor.collectChunks(RenderJsx({ helmetContext, store, client, req }))
 
   try {
     await getDataFromTree(jsx)
   } catch {}
 
-  const content = renderToString(jsx)
+  const sheet = new ServerStyleSheet()
   const apolloState = client.extract()
+
+  const userStateKey = Object.keys(apolloState).find((state) => state.includes('User'))
+  if (userStateKey) {
+    // @ts-ignore
+    store.dispatch(setUser(apolloState[userStateKey]))
+  }
+  const root = extractor.collectChunks(RenderJsx({ helmetContext, store, client, req }))
+  const content = renderToString(sheet.collectStyles(root))
   const html = htmlTemplate({
     extractor,
     content,
-    reduxState,
+    reduxState: store.getState(),
     apolloState,
+    styleTags: sheet.getStyleTags(),
     helmet: helmetContext.helmet,
   })
 
