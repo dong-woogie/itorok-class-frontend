@@ -42,6 +42,10 @@ function config(target) {
           ],
         },
         {
+          test: /\.svg$/,
+          use: ['@svgr/webpack'],
+        },
+        {
           oneOf: [
             {
               test: /\.(png|jpe?g|gif|ico)$/i,
