@@ -1,13 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
-
-const WritePageBlock = styled.div`
-  background: #000;
-  color: #fff;
-`
+import Editorpanes from '../components/write/Editorpanes'
+import MarkdownEditor from '../components/write/MarkdownEditor'
 
 function WritePage() {
-  return <WritePageBlock>Write Page</WritePageBlock>
+  return (
+    <div className="w-full h-full">
+      <Editorpanes left={<MarkdownEditor />} right="right" />
+    </div>
+  )
 }
 
 export default WritePage
