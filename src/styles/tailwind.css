@@ -8,6 +8,15 @@
   }
 }
 
+.toolbar-item {
+  @apply w-10 h-10 flex items-center justify-center focus:outline-none hover:bg-gray-100 active:bg-gray-200 rounded-md;
+}
+
+.toolbar-icon {
+  @apply text-gray-400 w-5 h-5;
+}
+
+
 body {
   -ms-overflow-style: none; 
   scrollbar-width: none;

@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import CodeMirror from 'codemirror'
 import styled from 'styled-components'
 import colors from 'tailwindcss/colors'
@@ -67,25 +67,37 @@ const PaddingWrapper = styled.div`
 
 function MarkdownEditor() {
   const editorRef = createRef<HTMLTextAreaElement>()
+  const toolbarRef = createRef<HTMLDivElement>()
+  const [shadow, setShadow] = useState(false)
+  const [toolbarTop, setToolbarTop] = useState(0)
 
   useEffect(() => {
     if (!editorRef.current) return
+    if (!toolbarRef.current) return
+
     CodeMirror.fromTextArea(editorRef.current, {
       mode: 'markdown',
       theme: 'one-light',
-      placeholder: '여기에다가 입력을 해주세요...',
+      placeholder: '클래스 소개를 해주세요...',
       viewportMargin: Infinity,
       lineWrapping: true,
     })
+
+    setToolbarTop(toolbarRef.current.getBoundingClientRect().top)
   }, [])
 
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const nextShadow = e.currentTarget.scrollTop > toolbarTop
+    if (shadow !== nextShadow) setShadow(nextShadow)
+  }
+
   return (
-    <MarkdownEditorBlock>
+    <MarkdownEditorBlock onScroll={handleScroll}>
       <div className="wrapper">
         <PaddingWrapper>
           <TitleTextArea placeholder="제목을 입력해주세요." />
         </PaddingWrapper>
-        <Toolbar />
+        <Toolbar innerRef={toolbarRef} shadow={shadow} />
         <PaddingWrapper>
           <textarea ref={editorRef} />
         </PaddingWrapper>
