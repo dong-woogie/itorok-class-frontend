@@ -56,10 +56,10 @@ function Toolbar({ innerRef, shadow, onClick }: ToolbarProps) {
       <button onClick={onClick('blockquote')} className="toolbar-item group">
         <Quote className="toolbar-icon group-hover:text-gray-900" strokeWidth={2.5} fill="currentColor" />
       </button>
-      <button className="toolbar-item group">
+      <button onClick={onClick('link')} className="toolbar-item group">
         <LinkSvg className="toolbar-icon group-hover:text-gray-900" strokeWidth={2.5} />
       </button>
-      <button className="toolbar-item group">
+      <button onClick={onClick('image')} className="toolbar-item group">
         <Image className="toolbar-icon group-hover:text-gray-900" strokeWidth={2.5} />
       </button>
       <button onClick={onClick('codeblock')} className="toolbar-item group">
