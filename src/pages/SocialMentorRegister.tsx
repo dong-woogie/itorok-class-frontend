@@ -6,7 +6,7 @@ import MentorRegisterFormContainer from '../containers/register/MentorRegisterFo
 
 function SocialMentorRegister() {
   return (
-    <div className="base-wrap flex flex-col">
+    <div className="base-wrap flex flex-col pt-12">
       <Helmet>멘토 회원가입</Helmet>
       <Header />
       <MentorRegisterFormContainer />

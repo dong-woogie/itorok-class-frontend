@@ -1,5 +1,5 @@
 import React from 'react'
-import { XIcon } from '@heroicons/react/outline'
+import { X } from 'react-feather'
 
 interface OverlayProps {
   children: React.ReactElement
@@ -14,7 +14,7 @@ function Overlay({ children, title, onClose }: OverlayProps) {
         <div />
         <h3 className="text-lg">{title}</h3>
         <div>
-          <XIcon className="w6 h-6 cursor-pointer" onClick={onClose} />
+          <X className="w6 h-6 cursor-pointer" onClick={onClose} />
         </div>
       </div>
       {children}

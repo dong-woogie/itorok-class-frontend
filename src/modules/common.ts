@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export interface CommonState {
-  addLinkPopover: AddLinkType | null
-}
 export interface PositionType {
   top: number
   bottom: number
@@ -14,8 +11,22 @@ export interface AddLinkType {
   position: PositionType
 }
 
+export interface ModalType {
+  title: string
+  body: string
+  onComplete: Function
+}
+
+export interface CommonState {
+  addLinkPopover: AddLinkType | null
+  alert: string | null
+  modal: ModalType | null
+}
+
 const initialState: CommonState = {
   addLinkPopover: null,
+  alert: null,
+  modal: null,
 }
 
 const common = createSlice({
@@ -28,9 +39,21 @@ const common = createSlice({
     closeAddLinkPopover(state) {
       state.addLinkPopover = null
     },
+    openAlert(state, action: PayloadAction<string>) {
+      state.alert = action.payload
+    },
+    closeAlert(state) {
+      state.alert = null
+    },
+    openModal(state, action: PayloadAction<ModalType>) {
+      state.modal = action.payload
+    },
+    closeModal(state) {
+      state.modal = null
+    },
   },
 })
 
-export const { closeAddLinkPopover, openAddLinkPopover } = common.actions
+export const { closeAddLinkPopover, openAddLinkPopover, openAlert, closeAlert, openModal, closeModal } = common.actions
 
 export default common.reducer

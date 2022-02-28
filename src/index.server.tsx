@@ -16,6 +16,8 @@ import { authLink, errorLink, httpLink } from './lib/apollo/link'
 import { setUser } from './modules/user'
 import RenderJsx from './server/RenderJsx'
 
+process.env.IS_SSR = 'enabled'
+
 const app = express()
 const PORT = 3000
 
@@ -52,6 +54,8 @@ app.get('*', async (req, res, next) => {
   }
   const root = extractor.collectChunks(RenderJsx({ helmetContext, store, client, req }))
   const content = renderToString(sheet.collectStyles(root))
+  const cssString = await extractor.getCssString()
+
   const html = htmlTemplate({
     extractor,
     content,
@@ -59,6 +63,7 @@ app.get('*', async (req, res, next) => {
     apolloState,
     styleTags: sheet.getStyleTags(),
     helmet: helmetContext.helmet,
+    cssString,
   })
 
   res.status(200).send(html)

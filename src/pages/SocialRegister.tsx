@@ -5,7 +5,7 @@ import RegisterFormContainer from '../containers/register/RegisterFormContainer'
 
 function SocialRegister() {
   return (
-    <div className="base-wrap">
+    <div className="base-wrap pt-12">
       <Helmet>
         <title>회원가입</title>
       </Helmet>

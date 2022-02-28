@@ -2,6 +2,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const webpack = require('webpack')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 function config(target) {
   const isWeb = target === 'web'
@@ -24,12 +27,12 @@ function config(target) {
     target,
     devtool: 'source-map',
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.mjs'],
+      extensions: ['.ts', '.tsx', '.js', '.mjs', '.cjs'],
     },
     module: {
       rules: [
         {
-          test: /\.(ts|tsx|mjs|js)$/,
+          test: /\.(ts|tsx|mjs|js|jsx)$/,
           exclude: /node_modules/,
           use: [
             {
@@ -72,17 +75,25 @@ function config(target) {
         },
         {
           test: /\.css$/,
-
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
       ],
     },
+    // optimization: {
+    //   minimize: true,
+    //   minimizer: [new CssMinimizerPlugin()],
+    // },
     plugins: [
       new MiniCssExtractPlugin({
         filename: 'static/styles/[name].css',
       }),
       new CleanWebpackPlugin(),
       new Dotenv(),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
+      new CompressionPlugin(),
     ],
   }
 }

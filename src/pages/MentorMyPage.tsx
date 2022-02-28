@@ -5,9 +5,11 @@ import MentorMyPageContainer from '../containers/mypage/MentorMyPageContainer'
 
 function MentorMyPage() {
   return (
-    <div className="base-wrap">
+    <div className="base-wrap pt-12">
       <Header />
-      <MentorMyPageContainer />
+      <div className="pb-16">
+        <MentorMyPageContainer />
+      </div>
       <Footer />
     </div>
   )

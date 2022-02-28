@@ -4,3 +4,7 @@ declare module '*.jpeg'
 declare module '*.gif'
 declare module '*.ico'
 declare module '*.svg'
+
+declare module 'remark-breaks'
+declare module 'rehype-stringify'
+declare module 'remark-rehype'

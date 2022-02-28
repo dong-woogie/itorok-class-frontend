@@ -1,32 +1,56 @@
 import React, { ChangeEvent, createRef, useCallback, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import CodeMirror, { EditorFromTextArea } from 'codemirror'
 import styled from 'styled-components'
 import colors from 'tailwindcss/colors'
 import 'codemirror/addon/display/placeholder'
 import 'codemirror/mode/markdown/markdown'
 import 'codemirror/mode/javascript/javascript'
+import 'codemirror/mode/jsx/jsx'
 import 'codemirror/lib/codemirror.css'
 import './atom-one-light.css'
-import TitleTextArea from './TitleTextArea'
+import { useDispatch } from 'react-redux'
 import Toolbar from './Toolbar'
-import { openAddLinkPopover } from '../../modules/common'
-import api from '../../lib/api'
 import { ADD_LINK_COMPONENT_HEIGHT, ADD_LINK_COMPONENT_WIDTH } from '../../lib/constants'
+import api from '../../lib/api'
+import { useTypedSelect } from '../../modules'
+import { openAddLinkPopover, PositionType } from '../../modules/common'
+import { toggleHideTab } from '../../modules/create-class'
+
+const MarkdownWrapper = styled.div`
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+
+  padding-left: 3rem;
+  padding-right: 3rem;
+
+  @media only screen and (max-width: 480px) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+`
 
 const MarkdownEditorBlock = styled.div`
   height: 100%;
   overflow-y: scroll;
 
   .wrapper {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-bottom: 4rem;
   }
 
   .CodeMirror {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     height: auto;
     font-size: 1.125rem;
     line-height: 1.5;
+    font-family: 'Fira Mono', monospace;
+    font-weight: 400;
     color: ${colors.gray[600]};
 
     .cm-header {
@@ -66,30 +90,30 @@ const MarkdownEditorBlock = styled.div`
     }
   }
 `
+interface MarkdownEditorProps {
+  onChangeMarkdown: Function
+  placeholder: string
+  markdown: string
+}
 
-const PaddingWrapper = styled.div`
-  padding-left: 3rem;
-  padding-right: 3rem;
-`
-
-function MarkdownEditor() {
+function MarkdownEditor({ onChangeMarkdown, placeholder, markdown }: MarkdownEditorProps) {
   const editorRef = createRef<HTMLTextAreaElement>()
   const toolbarRef = createRef<HTMLDivElement>()
   const fileInputRef = createRef<HTMLInputElement>()
   const blockRef = createRef<HTMLDivElement>()
 
-  const [shadow, setShadow] = useState(false)
-  const [toolbarTop, setToolbarTop] = useState(0)
-  const [codemirror, setCodemirror] = useState<EditorFromTextArea | null>(null)
   const dispatch = useDispatch()
+  const [codemirror, setCodemirror] = useState<EditorFromTextArea | null>(null)
 
-  const handleScroll = useCallback(
-    (e: React.UIEvent<HTMLDivElement>) => {
-      const nextShadow = e.currentTarget.scrollTop > toolbarTop
-      if (shadow !== nextShadow) setShadow(nextShadow)
-    },
-    [shadow],
-  )
+  const hideTab = useTypedSelect((state) => state.createClass.hideTab)
+
+  const onOpenAddLink = (position: PositionType, onComplete: Function) => {
+    dispatch(openAddLinkPopover({ position, onComplete }))
+  }
+
+  const onToggleHideTab = (hide: boolean) => {
+    dispatch(toggleHideTab(hide))
+  }
 
   const setHeading = (shop: '#' | '##' | '###' | '####') => {
     if (!codemirror) return
@@ -194,17 +218,21 @@ function MarkdownEditor() {
     fileInputRef.current?.click()
   }
 
+  const onUpload = async (e: ChangeEvent<HTMLInputElement>): Promise<string | null> => {
+    const formData = new FormData()
+    const file = e.target.files && e.target.files[0]
+
+    if (!file) return null
+    formData.append('file', file)
+    const { data } = await api.post('/api/upload', formData)
+    return data.image
+  }
+
   const onChangeFileTool = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
       if (!codemirror) return
-      const formData = new FormData()
-      const file = e.target.files && e.target.files[0]
-
-      if (!file) return
-      formData.append('file', file)
-      const { data } = await api.post('/api/upload', formData)
-
-      codemirror.replaceSelection(`![](${data.image})`)
+      const imageUrl = await onUpload(e)
+      codemirror.replaceSelection(`![](${imageUrl})`)
     },
     [codemirror],
   )
@@ -234,26 +262,20 @@ function MarkdownEditor() {
     if (blockRef.current && blockRef.current.clientWidth < position.left + ADD_LINK_COMPONENT_WIDTH) {
       overWidth = position.left + ADD_LINK_COMPONENT_WIDTH - blockRef.current.clientWidth
     }
-
     if (blockRef.current && blockRef.current.clientHeight < position.top + ADD_LINK_COMPONENT_HEIGHT) {
       overHeight = ADD_LINK_COMPONENT_HEIGHT + codemirror.defaultTextHeight()
     }
+    const resultPosition = {
+      ...position,
+      left: position.left - overWidth,
+      top: position.top + codemirror.defaultTextHeight() - overHeight,
+    }
 
-    dispatch(
-      openAddLinkPopover({
-        position: {
-          ...position,
-          left: position.left - overWidth,
-          top: position.top + codemirror.defaultTextHeight() - overHeight,
-        },
-        onComplete: setLink,
-      }),
-    )
+    onOpenAddLink(resultPosition, setLink)
   }
 
   const handleClickTools = (mode: string): Function | null => {
     if (!codemirror) return null
-
     const handlers: {
       [key: string]: () => void
     } = {
@@ -308,26 +330,35 @@ function MarkdownEditor() {
     const instance = CodeMirror.fromTextArea(editorRef.current, {
       mode: 'markdown',
       theme: 'one-light',
-      placeholder: '클래스 소개를 해주세요...',
+      placeholder,
       viewportMargin: Infinity,
       lineWrapping: true,
     })
 
-    ;(window as any).codemirror = instance
+    instance.on('change', (cm) => {
+      onChangeMarkdown(cm.getValue())
+    })
+
+    instance.on('scroll', (cm) => {
+      const info = cm.getScrollInfo()
+
+      if (info.top > 0 && info.height > window.screen.height) {
+        onToggleHideTab(true)
+      } else {
+        onToggleHideTab(false)
+      }
+    })
     setCodemirror(instance)
-    setToolbarTop(toolbarRef.current.getBoundingClientRect().top)
+    ;(window as any).codemirror = instance
   }, [])
 
   return (
-    <MarkdownEditorBlock ref={blockRef} onScroll={handleScroll}>
+    <MarkdownEditorBlock ref={blockRef}>
       <div className="wrapper">
-        <PaddingWrapper>
-          <TitleTextArea placeholder="제목을 입력해주세요." />
-        </PaddingWrapper>
-        <Toolbar innerRef={toolbarRef} shadow={shadow} onClick={handleClickTools} />
-        <PaddingWrapper>
-          <textarea ref={editorRef} />
-        </PaddingWrapper>
+        <Toolbar innerRef={toolbarRef} shadow={hideTab} onClick={handleClickTools} />
+        <MarkdownWrapper>
+          <textarea ref={editorRef} style={{ display: 'none' }} value={markdown} readOnly />
+        </MarkdownWrapper>
       </div>
       <input ref={fileInputRef} className="hidden" multiple={false} type="file" onChange={onChangeFileTool} />
     </MarkdownEditorBlock>

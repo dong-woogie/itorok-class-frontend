@@ -1,14 +1,18 @@
-import { ChevronRightIcon } from '@heroicons/react/outline'
+import { useQuery } from '@apollo/client'
+import { ChevronRight } from 'react-feather'
 import React, { useCallback } from 'react'
 import { useHistory } from 'react-router'
 import Button from '../../components/common/Button'
+import { GET_PRODUCT_COUNT } from '../../lib/graphql'
 import { useTypedSelect } from '../../modules'
+import { getProductCountquery } from '../../__generated__/getProductCountquery'
 
 function MentorMyPageContainer() {
   const user = useTypedSelect((state) => state.user.user)
+  const { data } = useQuery<getProductCountquery>(GET_PRODUCT_COUNT)
   const history = useHistory()
   const onClickCreateClassBtn = useCallback(() => {
-    history.push('/class/create')
+    history.push('/createclass')
   }, [])
 
   return (
@@ -24,7 +28,7 @@ function MentorMyPageContainer() {
           <div className="text-gray-400 text-sm">{user?.username}</div>
         </div>
         <div className="ml-auto flex items-center">
-          <ChevronRightIcon className="w-6 h-6 text-gray-300" />
+          <ChevronRight className="w-6 h-6 text-gray-300" />
         </div>
       </div>
 
@@ -38,7 +42,7 @@ function MentorMyPageContainer() {
 
       <div className="mt-10 border border-gray-200 shadow-md rounded-lg p-4">
         <h2 className="text-lg font-semibold my-2">운영중인 클래스</h2>
-        <h3 className="text-center text-gray-500 font-medium">0개</h3>
+        <h3 className="text-center text-gray-500 font-medium">{data?.getProductCount.productCount || 0}개</h3>
         <div className="mt-4">
           <Button text="클래스 생성하기" size="sm" type="button" onClick={onClickCreateClassBtn} />
         </div>

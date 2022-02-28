@@ -17,8 +17,11 @@ export function useFilesInput() {
     [state],
   )
 
+  // const onDeleteFile = (file: string) => {}
+
   return {
-    onChangeFileInput: onChange,
+    onChangeFilesInput: onChange,
+    // onDeleteFile,
     files: state,
   }
 }

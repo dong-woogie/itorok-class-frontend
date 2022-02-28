@@ -7,7 +7,7 @@ interface ButtonProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'> {
   color?: string
 }
 
-function Button({ text, canClick = true, size = 'md', color = 'emerald', ...rest }: ButtonProps) {
+function Button({ text, canClick = true, size = 'md', color = 'emerald', className, ...rest }: ButtonProps) {
   const buttonSize = {
     xs: 'py-1 px-3 text-sm rounded-sm',
     sm: 'py-1.5 font-medium text-base rounded-md',
@@ -23,7 +23,7 @@ function Button({ text, canClick = true, size = 'md', color = 'emerald', ...rest
   const isCanClickStyle = canClick ? bgColor() : 'bg-gray-300 pointer-events-none'
   return (
     <button
-      className={`${buttonSize[size]} w-full text-white outline-none focus:outline-none ${isCanClickStyle}`}
+      className={`${buttonSize[size]} w-full text-white outline-none focus:outline-none ${isCanClickStyle} ${className}`}
       {...htmlProps}
     >
       {text}

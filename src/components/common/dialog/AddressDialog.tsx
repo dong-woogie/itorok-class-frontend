@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { XIcon } from '@heroicons/react/solid'
+import { X } from 'react-feather'
 import DaumPostcode, { AddressData } from 'react-daum-postcode'
 import { useDispatch } from 'react-redux'
 import { useTypedSelect } from '../../../modules'
@@ -30,10 +30,12 @@ function AddressDialog() {
             className="absolute top-0 right-0 p-3 cursor-pointer rounded-full hover:bg-emerald-50 active:bg-emerald-100"
             onClick={onClose}
           >
-            <XIcon className="w-6 h-6" />
+            <X className="w-6 h-6" />
           </div>
         </div>
-        <DaumPostcode onComplete={onComplete} height="100%" autoResize autoClose />
+        <div className="flex-1">
+          <DaumPostcode onComplete={onComplete} height="100%" autoClose />
+        </div>
       </div>
     </div>
   )

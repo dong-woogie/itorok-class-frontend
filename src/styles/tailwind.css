@@ -4,18 +4,20 @@
 
 @layer components {
   .base-wrap {
-    @apply relative max-w-screen-sm mx-auto min-h-screen bg-white shadow-inner border border-t-0 border-b-0 border-gray-50;
+    @apply h-full max-w-screen-sm flex flex-col overflow-hidden mx-auto border shadow;
+  }
+  .content-wrap {
+    @apply flex-1 overflow-scroll none-scrollbar;
   }
 }
 
 .toolbar-item {
-  @apply w-10 h-10 flex items-center justify-center focus:outline-none hover:bg-gray-100 active:bg-gray-200 rounded-md;
+  @apply w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center focus:outline-none hover:bg-gray-100 active:bg-gray-200 rounded-md flex-shrink-0;
 }
 
 .toolbar-icon {
-  @apply text-gray-400 w-5 h-5;
+  @apply text-gray-400 w-4 h-4 sm:w-5 sm:h-5;
 }
-
 
 body {
   -ms-overflow-style: none; 
@@ -28,4 +30,21 @@ body::-webkit-scrollbar {
 
 input, button, textarea {
   font-family: inherit;
+}
+
+.none-scrollbar {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+
+.none-scrollbar::-webkit-scrollbar {
+  display : none;
+}
+
+.none-dragging {
+  -ms-user-select: none; 
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
 }

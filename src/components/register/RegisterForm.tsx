@@ -56,7 +56,7 @@ function RegisterForm({ onSubmit, defaultValues, error }: RegisterFormProps) {
 
       <Input label="한줄 소개" placeholder="한줄로 소개를 해주세요." {...register('shortBio')} />
       <FixedWrap>
-        <Button text="가입하기" size="sm" canClick={isValid && !error} />
+        <Button text="가입하기" size="full" canClick={isValid && !error} />
       </FixedWrap>
 
       {error && <p className="mt-2 text-sm text-rose-400 text-center">{error}</p>}

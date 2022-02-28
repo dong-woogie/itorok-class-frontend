@@ -9,7 +9,7 @@ function Login() {
   const location = useLocation()
   const { role } = qs.parse(location.search)
   return (
-    <div className="base-wrap">
+    <div className="base-wrap pt-12">
       <Header />
       <LoginComponent role={role as UserRole} />
     </div>

@@ -29,11 +29,18 @@ module.exports = {
         widest: '.1em',
         widest: '.25em',
       },
+      boxShadow: {
+        deep: 'rgb(0 0 0 / 10%) 0px 0px 8px',
+      },
+      flexWrap: {
+        unset: 'unset',
+      },
     },
   },
   variants: {
     extend: {
       backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
+      backgroundOpacity: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
       borderColor: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
       textColor: ['responsive', 'hover', 'focus', 'active', 'group-focus'],
       opacity: ['responsive', 'hover', 'focus', 'active', 'group-focus'],

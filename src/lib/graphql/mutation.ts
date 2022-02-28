@@ -34,3 +34,25 @@ export const LOGOUT_MUTATION = gql`
     logout
   }
 `
+
+export const UPDATE_USER = gql`
+  mutation updateUserMutation($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      ok
+      error
+      user {
+        ...UserParts
+      }
+    }
+  }
+  ${USER_FRAGMENT}
+`
+
+export const CREATE_PRODUCT = gql`
+  mutation createProductMutation($input: CreateProductInput!) {
+    createProduct(input: $input) {
+      ok
+      error
+    }
+  }
+`

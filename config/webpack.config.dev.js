@@ -22,7 +22,6 @@ module.exports = merge(commonConfig('web'), {
   ],
   devServer: {
     hot: true,
-    publicPath: '/',
     port: 3000,
     historyApiFallback: true,
   },

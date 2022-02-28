@@ -5,7 +5,7 @@ import ContentContainer from '../containers/home/ContentContainer'
 
 function Home() {
   return (
-    <div className="base-wrap flex flex-col">
+    <div className="base-wrap">
       <Header />
       <ContentContainer />
       <Footer />

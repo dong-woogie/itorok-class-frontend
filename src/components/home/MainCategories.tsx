@@ -8,10 +8,10 @@ interface MainCategoriesProps {
   loading: boolean
 }
 
-function MainCategories({ categories, loading }: MainCategoriesProps) {
+function MainCategories({ categories, loading = false }: MainCategoriesProps) {
   return (
     <div className="w-full mt-8 border-b border-gray-300">
-      <h4 className="text-center font-mono text-sm">인기 카테고리</h4>
+      <h4 className="text-center font-mono text-sm font-semibold">인기 카테고리</h4>
       <div className="flex flex-wrap mx-4">
         {categories.map((category) => (
           <Category {...category} key={category.id} />
