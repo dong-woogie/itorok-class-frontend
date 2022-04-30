@@ -1,52 +1,27 @@
 import { useQuery } from '@apollo/client'
-import { ChevronRight } from 'react-feather'
-import React, { useCallback } from 'react'
-import { useHistory } from 'react-router'
-import Button from '../../components/common/Button'
+import React from 'react'
 import { GET_PRODUCT_COUNT } from '../../lib/graphql'
 import { useTypedSelect } from '../../modules'
 import { getProductCountquery } from '../../__generated__/getProductCountquery'
+import MyPageTitle from '../../components/mypage/MyPageTitle'
+import MyPageProfile from '../../components/mypage/MyPageProfile'
+import MyPageAddress from '../../components/mypage/MyPageAddress'
+import MyPageClassSituation from '../../components/mypage/MyPageClassSituation'
 
 function MentorMyPageContainer() {
   const user = useTypedSelect((state) => state.user.user)
   const { data } = useQuery<getProductCountquery>(GET_PRODUCT_COUNT)
-  const history = useHistory()
-  const onClickCreateClassBtn = useCallback(() => {
-    history.push('/createclass')
-  }, [])
-
   return (
     <div className="px-4">
-      <h1 className="text-center text-xl font-semibold py-2">마이페이지</h1>
-
-      <div className="mt-6 flex">
-        <div className="w-16 h-16">
-          <img src={user?.profile.thumbnail} alt="thumbnail" className="rounded-full" />
-        </div>
-        <div className="ml-5 flex flex-col justify-center">
-          <div className="text-lg font-semibold">{user?.profile.displayName} 멘토님</div>
-          <div className="text-gray-400 text-sm">{user?.username}</div>
-        </div>
-        <div className="ml-auto flex items-center">
-          <ChevronRight className="w-6 h-6 text-gray-300" />
-        </div>
-      </div>
-
-      <div className="mt-10 border border-gray-200 shadow-md rounded-lg p-4">
-        <h2 className="text-lg font-semibold py-2">공방 주소</h2>
-        <h4 className="text-gray-500 font-medium">{`${user?.address} ${user?.detailAddress}`}</h4>
-        <div className="mt-4">
-          <Button text="공방 주소변경하기" size="sm" />
-        </div>
-      </div>
-
-      <div className="mt-10 border border-gray-200 shadow-md rounded-lg p-4">
-        <h2 className="text-lg font-semibold my-2">운영중인 클래스</h2>
-        <h3 className="text-center text-gray-500 font-medium">{data?.getProductCount.productCount || 0}개</h3>
-        <div className="mt-4">
-          <Button text="클래스 생성하기" size="sm" type="button" onClick={onClickCreateClassBtn} />
-        </div>
-      </div>
+      <MyPageTitle />
+      <MyPageProfile
+        thumbnail={user?.profile.thumbnail}
+        username={user?.username}
+        displayName={user?.profile.displayName}
+        role={user?.role}
+      />
+      <MyPageAddress address={user?.address} detailAddress={user?.detailAddress} />
+      <MyPageClassSituation classCount={data?.getProductCount.productCount} />
     </div>
   )
 }

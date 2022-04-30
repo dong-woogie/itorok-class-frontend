@@ -14,10 +14,10 @@ const LoginPage = loadable(() => import('./pages/Login'))
 const SocialRegisterPage = loadable(() => import('./pages/SocialRegister'))
 const SocialLoginPage = loadable(() => import('./pages/SocialLogin'))
 const SocialMentorRegisterPage = loadable(() => import('./pages/SocialMentorRegister'))
-const MentorMyPage = loadable(() => import('./pages/MentorMyPage'))
 const CreateClassPage = loadable(() => import('./pages/create-class/CreateClass'), { ssr: false })
 const WritePage = loadable(() => import('./pages/WritePage'))
 const ProductsPage = loadable(() => import('./pages/Products'))
+const MyPage = loadable(() => import('./pages/my-pages/MyPage'))
 
 function App() {
   useLoad()
@@ -31,7 +31,7 @@ function App() {
       <Switch>
         <Route path="/" component={HomePage} exact />
         <Route path="/login" component={LoginPage} exact />
-        <Route path="/mypage" component={MentorMyPage} exact />
+        <Route path="/mypage" component={MyPage} exact />
         <Route path="/createclass" component={CreateClassPage} />
         <Route path="/social/login" component={SocialLoginPage} exact />
         <Route path="/social/client/register" component={SocialRegisterPage} exact />
